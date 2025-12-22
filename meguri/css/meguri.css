@@ -55,11 +55,13 @@ body { margin:0; font-family:"Noto Sans JP", sans-serif; background:#fff; color:
 
 /* 「めぐり」を少し下げる */
 .hero__title {
-  writing-mode:vertical-rl; text-orientation:upright;
-  font-size:clamp(4.6rem, 10vw, 7rem);
-  color:var(--brand);
-  letter-spacing:.4rem;
-  margin:24px 0 0; /* ← 下げるため上マージンを追加 */
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  white-space: nowrap;
+  font-size: clamp(4.6rem, 10vw, 7rem);
+  color: var(--brand);
+  letter-spacing: .4rem;
+  margin: 24px 0 0;
 }
 .hero__title.fade-in { transform:translateX(var(--meguri-x-nudge)) translateY(20px); }
 .hero__title.fade-in.appear { transform:translateX(var(--meguri-x-nudge)) translateY(0); }
