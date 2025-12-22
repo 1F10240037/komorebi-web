@@ -1,0 +1,115 @@
+/* =========================================
+   Theme: Sand & Cocoa Light Background
+   背景のみ白寄せで全体を明るく、他要素は暖かさを維持
+   ========================================= */
+
+:root{
+  --brand:         #E79E2D;   /* メイン：やわらかオレンジ */
+  --brand-strong:  #C9831F;   /* ホバー用の濃い橙 */
+  --accent:        #F2B35C;   /* アクセント（控えめ） */
+
+  --ink:           #2B2520;   /* 文字：こげ茶 */
+  --muted:         #726357;   /* 補助テキスト */
+
+  --bg:            #FFFCF8;   /* ★背景：白に近い淡ベージュ（元は#F3E2C9） */
+  --surface:       #FBF4E7;   /* カード/セクション：従来の砂色をキープ */
+  --border:        #E3D4C2;   /* 薄い境界線 */
+
+  --link:          #8F5A22;   /* リンク：ブラウン */
+  --link-hover:    #6F451A;   /* リンクホバー：濃いブラウン */
+}
+
+/* ---- 背景とテキスト ---- */
+html, body{
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* ---- ナビ ---- */
+.nav{
+  background: rgba(255,252,248,.9);
+  backdrop-filter: saturate(180%) blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.menu .menu__item{ color: var(--ink); }
+.menu .menu__item:hover{ color: var(--link-hover); }
+
+.menu .menu__item.cta{
+  background: var(--brand);
+  color: #fff !important;
+  border: 1px solid var(--brand);
+}
+.menu .menu__item.cta:hover{
+  background: var(--brand-strong);
+  border-color: var(--brand-strong);
+}
+
+/* ---- ボタン ---- */
+.btn{
+  background: var(--brand);
+  color: #fff;
+  border: 1px solid var(--brand);
+}
+.btn:hover{
+  background: var(--brand-strong);
+  border-color: var(--brand-strong);
+}
+
+.btn.ghost,
+.btn--line{
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+.btn.ghost:hover,
+.btn--line:hover{
+  background: var(--ink);
+  color: #fff;
+}
+
+/* ---- ヒーローのオーバーレイ ---- */
+.hero__overlay{
+  background: radial-gradient(120% 80% at 50% 20%,
+              rgba(231,158,45,.16) 0%,
+              rgba(231,158,45,.10) 35%,
+              rgba(231,158,45,.06) 60%,
+              rgba(231,158,45,0) 100%);
+}
+
+/* ---- セクション／カード ---- */
+.section{ background: transparent; }
+.card,
+.feature,
+.footer,
+.footer__grid,
+.footer__bottom{
+  background: var(--surface);
+}
+.card{
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+}
+
+/* ---- プレースホルダー ---- */
+.ph, .ph--app, .ph--bg{
+  background: #ffffff;
+  color: var(--muted);
+}
+
+/* ---- リンク ---- */
+a{ color: var(--link); }
+a:hover{ color: var(--link-hover); }
+
+/* ---- フッター ---- */
+.footer{
+  border-top: 1px solid var(--border);
+}
+.footer h4{ color: var(--muted); }
+.footer a:hover{ color: var(--link-hover); }
+
+/* ---- お問い合わせページ ---- */
+.contact__mail{
+  background: #F6EAD6;
+  border: 1px solid var(--border);
+}
+.contact__mail a{ color: var(--link); }

@@ -1,0 +1,272 @@
+/* ========== Komorebi Gentle Green Theme (full replace) ========== */
+/* 目的：既存の index.html / default.css / hero.js を崩さず「見た目だけ」刷新 */
+/* 読み込み順：default.css → hero.css → theme-komorebi.css（本ファイル） */
+
+/* ----- トークン（色・影・角丸・幅） ----- */
+:root{
+  --ink:#21322b;             /* 深い緑寄りの本文色 */
+  --ink-sub:#4b5e56;
+  --bg:#f8fbf7;              /* やさしい緑みの生成り */
+  --surface:#ffffff;
+  --line:#e6efe8;
+
+  --leaf:#66b58a;            /* メインのやさしい緑 */
+  --leaf-2:#4a8f6b;          /* 濃い緑（グラデ下側） */
+  --sun:#f6ebaf;             /* 木漏れ日のひかり（やわらか黄） */
+  --moss:#5c7267;
+  --accent:#b9d9c7;          /* 補助の淡緑 */
+
+  --radius-lg:20px;
+  --radius-md:14px;
+  --shadow-sm:0 6px 18px rgba(0,0,0,.06);
+  --shadow-md:0 12px 28px rgba(0,0,0,.08);
+  --shadow-lg:0 18px 40px rgba(0,0,0,.10);
+
+  --maxw:1200px;
+  --header-h: 72px; /* default.cssの変数と同名で上書き */
+}
+
+/* ----- ベース：紙地グラデ＋読みやすい字間 ----- */
+html,body{height:100%}
+body{
+  color:var(--ink);
+  background:
+    radial-gradient(1100px 550px at 12% -8%, rgba(102,181,138,.10), transparent 65%),
+    radial-gradient(900px 450px at 100% 8%,   rgba(246,235,175,.16), transparent 58%),
+    var(--bg);
+  font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;
+  line-height:1.7;
+  letter-spacing:.01em;
+  text-rendering:optimizeLegibility;
+}
+
+/* 既存 a を上品に */
+a{ color:var(--leaf); text-decoration:none }
+a:hover{ text-decoration:underline; text-underline-offset:.2em; opacity:.95 }
+
+/* 見出しを少ししなやかに（既存サイズは尊重） */
+h1,h2,h3{ font-family:"Shippori Mincho B1","Noto Serif JP",serif; color:var(--ink); }
+
+/* main の上マージン（固定ヘッダ分） */
+main{ padding-top: var(--header-h) !important }
+
+/* ========== ヘッダー（既存 header/nav を上書き） ========== */
+header{
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  background: rgba(255,255,255,.88) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ロゴ見栄え（既存 #logo を活かす） */
+#logo{
+  width: 156px; height: 52px;
+  background-image: url('../img/komorebi.png') !important;
+  background-size: contain; background-repeat: no-repeat;
+  background-position:left center;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.08));
+}
+
+/* ハンバーガー */
+.menu-toggle{
+  color:#1c2a27 !important; font-size:26px !important;
+  padding:.25rem .5rem; border-radius:10px; border:1px solid transparent;
+  transition: background .2s ease, border-color .2s ease;
+}
+.menu-toggle:hover{ background:rgba(255,255,255,.6); border-color:var(--line) }
+
+/* PCナビ */
+.navbar{
+  display:flex; gap:1rem; list-style:none;
+}
+.navbar li a{
+  display:inline-block; color:var(--ink); font-weight:600;
+  padding:.55rem .9rem; border-radius:10px;
+  transition: background .15s ease, color .15s ease, box-shadow .2s ease;
+}
+.navbar li a:hover{
+  background: rgba(102,181,138,.12) !important; /* やさしい緑の面 */
+  color: var(--leaf) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* モバイルナビ（既存の display 切替を活かして装飾だけ） */
+@media (max-width: 768px){
+  .navbar{
+    background: rgba(255,255,255,.95) !important;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .navbar li{ justify-content:flex-start !important; }
+  .navbar li a{ width:100% }
+}
+
+/* ========== ヒーロー：読みやすさ強化だけ（構造は触らない） ========== */
+.hero{ color:#fff }
+.hero .slide__overlay{
+  /* 背景画像の明るさが変わっても文字が読めるように */
+  backdrop-filter: blur(2px);
+  background: linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.22));
+  padding: clamp(12px, 2vw, 20px);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 10px 28px rgba(0,0,0,.18);
+  max-width: min(90%, 960px);
+}
+.hero .slide__title{
+  font-family:"Shippori Mincho B1","Noto Serif JP",serif;
+  font-weight:700; letter-spacing:.02em;
+  font-size: clamp(22px, 3.2vw, 40px);
+  margin-bottom:.25em;
+}
+.hero .slide__desc{
+  font-size: clamp(14px, 1.6vw, 18px);
+  opacity:.95;
+}
+
+/* スライド操作ボタンを“葉”テイストに */
+.btn.btn--prev, .btn.btn--next{
+  background: linear-gradient(180deg, var(--leaf), var(--leaf-2)) !important;
+  color:#fff !important; border:1px solid rgba(0,0,0,.05) !important;
+  width:42px; height:42px; border-radius:999px;
+  box-shadow: var(--shadow-sm);
+}
+.btn.btn--prev:hover, .btn.btn--next:hover{ box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.dots button[aria-selected="true"]{ background: var(--leaf) !important; }
+
+/* ========== セクション（about-details を“安心カード”へ） ========== */
+section{
+  max-width: var(--maxw);
+  margin: clamp(28px, 6vw, 64px) auto;
+  padding-left: 20px; padding-right: 20px;
+}
+.about-details{
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: clamp(18px, 3vw, 28px);
+}
+
+/* 見出し：下線をやわらかい帯に変更 */
+.about-details h2{
+  color: var(--ink);
+  text-align: center;
+  font-weight: 800;
+  margin-bottom: .9rem;
+  border: none;
+  position: relative;
+  padding-bottom: .6rem;
+}
+.about-details h2::after{
+  content:"";
+  display:block;
+  width: 140px; height: 8px; margin: .5rem auto 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(185,217,199,.90),
+    rgba(74,143,107,.55)
+  );
+}
+
+/* h3（もし使うとき） */
+.about-details h3{
+  text-align:center; margin-top:1.4rem; margin-bottom:.8rem; border:none;
+}
+
+/* 説明文 */
+.about-details p{ color: var(--ink-sub) }
+
+/* リスト（お知らせ・活動報告） */
+.about-details ul{ list-style: none; padding:0; margin: .2rem 0 0 }
+.about-details li{
+  border-top:1px dashed var(--line);
+  padding:.7rem .2rem;
+}
+.about-details li:first-child{ border-top:none }
+.about-details li a{ color:var(--leaf); font-weight:600 }
+
+/* ========== 活動報告カード表示（articles.json が画像/タグ持ちの時） ========== */
+#latest-reports{ list-style:none; padding:0; margin:0 }
+#latest-reports .article-item{
+  display:flex; gap:1rem; align-items:flex-start;
+  padding:1rem 0; border-top:1px solid var(--line);
+}
+#latest-reports .article-item:first-child{ border-top:none }
+.article-img{
+  width: 168px; height: 112px; object-fit: cover; border-radius: 12px; flex-shrink:0;
+  box-shadow: var(--shadow-sm);
+}
+.article-content{ flex:1; display:flex; flex-direction:column; gap:.4rem }
+.article-meta{ display:flex; align-items:center; gap:.6rem; color:var(--moss); font-size:.9rem }
+.article-tags .tag{
+  display:inline-block; padding:.25em .6em; border-radius:999px; font-size:.78rem;
+  background:#f0f5f2; color:var(--moss); border:1px solid #e2ebe5;
+}
+.article-title{ color:var(--ink); font-weight:800 }
+.article-title:hover{ color:var(--leaf) }
+
+/* ========== 右サイドのタグ検索（固定UIをやわらかく） ========== */
+#tag-search{
+  background: #fbfbf9;
+  border:1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+#tag-list .tag{
+  background:#eef7f0; color:#27443a; border:1px solid #dcece3;
+  border-radius:999px; padding:.35em .8em;
+}
+#tag-list .tag.selected{ background: var(--leaf); color:#fff; border-color: transparent }
+
+/* ========== ボタン汎用（既存 .back-button などのトーン合わせ） ========== */
+.back-button{
+  background: linear-gradient(180deg, var(--leaf), var(--leaf-2));
+  color:#fff; border:none; border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+}
+.back-button:hover{ box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+/* ========== 画像のはみ出し/横スクロール抑止（安全策） ========== */
+img{ max-width: 100%; height: auto; }
+html, body{ overflow-x: hidden; }
+
+/* ========== レスポンシブ微調整 ========== */
+@media (max-width: 900px){
+  .article-img{ width: 140px; height: 94px }
+}
+@media (max-width: 768px){
+  .about-details{ padding: 18px }
+  #latest-reports .article-item{ gap:.8rem }
+  .article-img{ width: 120px; height: 80px }
+}
+
+/* ========== アクセシビリティ：フォーカス可視化 ========== */
+a, button, [role="button"], .tag{
+  outline: none;
+}
+a:focus-visible, button:focus-visible, .tag:focus-visible{
+  box-shadow: 0 0 0 3px rgba(31,122,79,.28);
+  border-radius: 10px;
+}
+
+/* 動きを苦手にする設定に配慮 */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important }
+}
+
+/* ===== モバイルの開閉表示（ハンバーガーと連動） ===== */
+@media (max-width: 768px){
+  .navbar{ display: none !important; }
+  .navbar.active{ display: flex !important; }
+}
+
+/* ===== ヒーロー内のテキストを非表示にする（写真のみ見せる） ===== */
+.hero .slide__overlay,
+.hero .slide__ph {
+  display: none !important;
+}

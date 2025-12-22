@@ -1,0 +1,350 @@
+/* ===== 基本設定 ===== */
+:root {
+  --brand: #1f7a4f;
+  --muted: #5c7267;
+  --bg-light: #f6f9f7;
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --nav-bg-scroll: rgba(255, 255, 255, 0.96);
+  --meguri-x-nudge: 0px; /* タイトル横ズレ防止（中央寄せ） */
+}
+body { margin:0; font-family:"Noto Sans JP", sans-serif; background:#fff; color:#222; line-height:1.6; }
+.hand { font-family:"Shippori Mincho B1", serif; }
+.no-scroll { overflow:hidden; }
+
+/* ===== ナビ ===== */
+.nav {
+  position:fixed; top:0; width:100%;
+  background:var(--nav-bg);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 20px;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
+  transition:background .3s ease, box-shadow .3s ease;
+  z-index:100;
+  box-sizing:border-box;
+  padding-inline:max(20px, env(safe-area-inset-left)) max(20px, env(safe-area-inset-right));
+  font-size: 16px;
+}
+.nav.is-scrolled { background:var(--nav-bg-scroll); box-shadow:0 4px 12px rgba(0,0,0,.1); }
+.brand__logo { height:48px; width:auto; border-radius:10px; transition:transform .2s ease; }
+.brand__logo:hover { transform:scale(1.05); }
+
+/* ===== メニュー ===== */
+.menu { display:flex; align-items:center; gap:16px; min-width:0; }
+.menu__item { color:var(--brand); text-decoration:none; font-weight:600; background:none; border:none; cursor:pointer; padding-block:12px;}
+.menu__item.cta { padding:8px 14px; background:var(--brand); color:#fff; border-radius:20px; }
+
+.submenu { display:none; position:absolute; top:56px; background:#fff; box-shadow:0 4px 16px rgba(0,0,0,.1); border-radius:10px; padding:8px 0; }
+.submenu.open { display:block; }
+.submenu__link { display:block; padding:8px 16px; color:#333; text-decoration:none; }
+.submenu__link:hover { background:#eaf5ef; }
+
+/* ===== ハンバーガー ===== */
+.hamburger { display:none; flex-direction:column; gap:4px; background:none; border:none; }
+.hamburger span { width:28px; height:3px; background:var(--brand); border-radius:2px; display:block; }
+
+/* ===== Hero ===== */
+.hero {
+  height:100vh; min-height:100svh;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  background:linear-gradient(180deg, #eaf5ef, #f9fbf9);
+  text-align:center; position:relative; overflow:hidden;
+}
+.photo-ph { position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0), rgba(0,0,0,.05)); will-change:transform; }
+.hero__overlay { position:absolute; inset:0; background:radial-gradient(ellipse at center, rgba(255,255,255,0.25), rgba(255,255,255,0) 60%); pointer-events:none; }
+.hero__content { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:20px; }
+
+/* 「めぐり」を少し下げる */
+.hero__title {
+  writing-mode:vertical-rl; text-orientation:upright;
+  font-size:clamp(4.6rem, 10vw, 7rem);
+  color:var(--brand);
+  letter-spacing:.4rem;
+  margin:24px 0 0; /* ← 下げるため上マージンを追加 */
+}
+.hero__title.fade-in { transform:translateX(var(--meguri-x-nudge)) translateY(20px); }
+.hero__title.fade-in.appear { transform:translateX(var(--meguri-x-nudge)) translateY(0); }
+
+/* （回転語は撤去したので関連表示は不要。念のためデフォルト無効） */
+.rotating { display:none; }
+
+/* ===== スクロール表示は削除（scroll-indicator） ===== */
+/* .scroll-indicator {...} は撤去 */
+
+/* ===== セクション ===== */
+.section { padding:100px 0; }
+.wrap { max-width:1100px; margin:0 auto; padding:0 20px; }
+.center { text-align:center; }
+.sec-title { font-size:2.2rem; color:var(--brand); margin-bottom:1rem; }
+
+/* ===== 2行コピー（スクロール後ふわっと上がる） ===== */
+.tagline .tagline__line{
+  color:#000;                 /* 黒指定 */
+  font-size: clamp(1.4rem, 3.6vw, 2.4rem);
+  margin:0.2em 0;
+  opacity:0;
+  transform: translateY(18px);
+  transition: opacity .9s ease, transform .9s ease;
+}
+.tagline.appear .tagline__line{
+  opacity:1;
+  transform: translateY(0);
+}
+.tagline.appear .tagline__line.slow{
+  transition-delay: .18s;     /* 後半を少し遅らせる */
+}
+
+/* ===== カード ===== */
+.cards-3 { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); margin:60px 0; gap:24px; }
+.card { background:#fff; border-radius:14px; box-shadow:0 4px 10px rgba(0,0,0,.06); padding:20px; text-align:center; }
+.ph--photo { height:180px; }
+.ph--app { height:260px; display: flex; align-items:center; justify-content: center; }
+.ph--bg { padding:36px; }
+
+/* ===== 機能一覧 ===== */
+.features { background:var(--bg-light); }
+.feature.row { display:grid; grid-template-columns:1.1fr .9fr; align-items:center;  margin:60px 0; border-radius: 12px; }
+.feature.row.alt { grid-template-columns:.9fr 1.1fr; }
+.feature__media .ph { border-radius:12px; height:520px; }
+.feature__text h3 { color:var(--brand); margin-bottom:.5rem; font-size: 1.5rem; }
+.feature__media .ph img { height: 100%; object-fit: cover; display: block; border-radius:12px; }
+
+/* ===== ダウンロード ===== */
+.download { background:linear-gradient(180deg, #fff, #f2f8f4); text-align:center; }
+.btn { display:inline-block; padding:12px 24px; border-radius:999px; font-weight:700; text-decoration:none; background:var(--brand); color:#fff; margin:8px; }
+.btn.ghost { background:#e8f3ec; color:var(--brand); }
+
+/* ===== フッター ===== */
+.footer { background:#eef6f0; padding-top:60px; }
+.footer__grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px; }
+.footer__col h4 { color:var(--brand); }
+.footer__bottom { text-align:center; padding:16px 0; color:#2d5b41; border-top:1px solid #d0e1d8; }
+
+/* ===== フェードイン（JSが壊れても内容は見える設計） ===== */
+.fade-in { opacity:1; transform:none; }
+.js-enabled .fade-in { opacity:0; transform:translateY(20px); transition:opacity .9s ease, transform .9s ease; }
+.fade-in.appear { opacity:1; transform:translateY(0); }
+
+/* ===== スマホ ===== */
+@media (max-width:880px){
+  .menu {
+    position:fixed; top:60px; left:0; right:0; background:rgba(255,255,255,.97);
+    flex-direction:column; align-items:stretch; gap:0; padding:12px 0;
+    transform:translateY(-8px); opacity:0; visibility:hidden; pointer-events:none;
+    transition:transform .25s ease, opacity .25s ease, visibility 0s linear .25s; z-index:99;
+  }
+  .menu.open { transform:translateY(0); opacity:1; visibility:visible; pointer-events:auto; transition:transform .25s ease, opacity .25s ease; }
+  .hamburger { display:flex; }
+  .feature.row, .feature.row.alt { grid-template-columns:1fr; text-align:center; }
+}
+
+
+/* --- 3ステップ（写真なしデザイン） --- */
+.story {
+  background: linear-gradient(180deg, #f6f9f7 0%, #fefdfb 100%);
+}
+
+.card--step {
+  padding: 28px 22px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.card--step:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,.08);
+}
+
+.step-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  border-radius: 50%;
+  background:
+    radial-gradient(120% 120% at 30% 20%, #f3fbf7 0%, #e2f2ea 60%, #d6e9e0 100%);
+  border: 1px solid #cfe3d8;
+  color: #1f7a4f;
+}
+
+.card--step h3 {
+  margin: 6px 0 6px;
+  color: var(--brand);
+  font-size: 1.5rem;
+}
+
+.step-copy {
+  margin: 0 0 14px;
+  color: #555;
+  font-size: 0.98rem;
+}
+
+/* 輪郭だけのやさしいボタン（既存 .btn と共存） */
+.btn--line {
+  background: transparent;
+  color: var(--brand);
+  border: 1.5px solid var(--brand);
+  padding: 10px 18px;
+}
+.btn--line:hover { filter: brightness(0.98); }
+
+/* 小さめ画面での余白最適化 */
+@media (max-width: 880px){
+  .card--step { padding: 24px 18px; }
+  .step-icon { width: 56px; height: 56px; font-size: 24px; }
+}
+
+
+/* --- 3ステップ修正版: 高さを確保して非表示を防ぐ --- */
+.card--step {
+  min-height: 260px;              /* ← 高さを確保 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* ボタンを下に配置 */
+}
+
+.step-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.step-copy {
+  flex: 1;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.btn--line {
+  display: inline-block;
+  border: 1.5px solid var(--brand);
+  background: transparent;
+  color: var(--brand);
+  border-radius: 999px;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background .3s ease, color .3s ease;
+}
+.btn--line:hover {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* ===== 機能ブロックを左右交互に配置（デスクトップ時） ===== */
+@media (min-width: 881px){
+  /* 基本（1,3,5...）：左=テキスト / 右=スマホ画像 */
+  .feature.row .feature__text { order: 1; }
+  .feature.row .feature__media { order: 2; }
+
+  /* 交互（2,4,6...= .alt）：左=スマホ画像 / 右=テキスト */
+  .feature.row.alt .feature__text  { order: 2; }
+  .feature.row.alt .feature__media { order: 1; }
+}
+
+/* スマホ時（1カラム）は従来通りの縦並びのまま */
+
+
+/* === 追加（ナビの中央ぞろえを統一）==================== */
+/* メニューの並びを中央寄せ＆テキストも中央に */
+.nav .menu{
+  justify-content: center;   /* 横方向：中央配置 */
+  text-align: center;        /* テキスト中央 */
+}
+
+/* ボタン系（通常項目＆アプリ概要ボタン）も中央寄せに統一 */
+.nav .menu .menu__item,
+.nav .menu .has-sub{
+  text-align: center;
+}
+
+/* サブメニュー内の文言も中央寄せ */
+.nav .submenu{
+  text-align: center;
+}
+/* ====================================================== */
+
+
+/* === 追加: アプリ概要ボタンのサイズUP === */
+.has-sub {
+  font-size: clamp(1.0rem, 2.5vw, 1.1rem); /* ほんの少し大きめ */
+  font-weight: 600;
+}
+
+
+/* === 追加：スマホ時、アプリ概要の裏から下向きにスライドイン === */
+@media (max-width: 880px){
+
+  /* アプリ概要ボタンを前面にして“裏から出る”感じを作る */
+  #aboutBtn{
+    position: relative;
+    z-index: 2;
+  }
+
+  /* サブメニューはボタン直下で、閉じている間は高さ0＆クリップで隠す */
+  #aboutSub{
+    position: relative;          /* 通常フロー（縦積み） */
+    display: block !important;   /* baseの display:none を上書き */
+    background: rgba(255,255,255,.97);
+    margin-top: -6px;            /* ボタンの下に重ねて“裏から”感を出す */
+    padding-top: 6px;            /* 重ねた分の余白を中側で復元 */
+    overflow: hidden;            /* はみ出し隠す */
+    max-height: 0;               /* 初期＝畳む */
+    opacity: 0;
+    transform: translateY(-6px); /* 少し上から現れる */
+    clip-path: inset(0 0 100% 0);/* 上からクリップ（裏から感の主役） */
+    transition:
+      max-height .28s ease,
+      opacity .28s ease,
+      transform .28s ease,
+      clip-path .28s ease;
+    z-index: 1;                  /* ボタン(z=2)の“裏側”に配置 */
+    box-shadow: none;            /* モバイルは影なしでスッキリ */
+    border-radius: 0;
+  }
+
+  /* 開いたときに下へ展開。max-heightは中身より少し大きめならOK */
+  #aboutSub.open{
+    max-height: 420px;
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* タップしやすい行間＆中央寄せ（既存指定があってもこれが勝つ） */
+  #aboutSub .submenu__link{
+    display: block;
+    padding: 12px 20px;
+    text-align: center;
+    font-weight: 600;
+    border-top: 1px solid #e8efe9;
+  }
+  #aboutSub .submenu__link:first-child{ border-top: none; }
+
+  /* メニュー全体の縦積み整列（既存と競合しない軽い補強） */
+  .menu{ align-items: stretch; }
+}
+
+
+/* === 追加：固定ヘッダーぶんのアンカー着地余白（全見出し/セクション共通） === */
+:root { --nav-h: 60px; } /* 初期値。実寸はJSが上書きします */
+
+.section,
+.sec-title,
+[id] {  /* #concept,#features,#voices など、id持ち見出しにも効かせる */
+  scroll-margin-top: calc(var(--nav-h) + 12px);
+}
+
+/* ===== 左側のテキストが画面端に寄りすぎる問題を修正 ===== */
+.feature__text {
+  padding-left: 2.5rem; /* 文章を右に寄せる。値は2〜3remの範囲で調整可 */
+  padding-right: 2.5rem;
+}
+
+/* スマホでは余白を少し小さめにする */
+@media (max-width: 768px) {
+  .feature__text {
+    padding-left: 1rem;
+  }
+}

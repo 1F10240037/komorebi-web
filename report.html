@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/こもれび.png" type="image/png">
+    <title>活動報告｜こもれび</title>
+    <link rel="stylesheet" type="text/css" href="css/default.css">
+    <link rel="stylesheet" href="css/theme-komorebi.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H51V3XX5CG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-H51V3XX5CG');
+    </script>
+</head>
+<body>
+    <header>
+        <div id="logo_area">
+            <a href="/index.html"><figure id="logo"></figure></a>
+        </div>
+        <div class="header-container">
+            <button class="menu-toggle" aria-label="メニューを開く">&#9776;</button>
+        </div>
+        <ul class="navbar">
+            <li><a href="/index.html">トップページ</a></li>
+            <li><a href="/about.html">こもれびについて</a></li>
+            <li><a href="/report.html">活動報告</a></li>
+            <li><a href="/support.html">寄付・協賛</a></li>
+            <li><a href="/contact.html">お問い合わせ</a></li>
+            <li><a href="https://www.instagram.com/komorebi_volo/">Instagram</a></li>
+        </ul>
+    </header>
+    <main>
+        <section class="title">
+            <h1>活動報告</h1>
+        </section>
+        <aside id="tag-search">
+            <h2>タグで検索</h2>
+            <!-- 入力不可にする -->
+            <div id="search-input" readonly></div>
+            <div id="tag-list"></div>
+            <div id="hit-count">ヒット件数: 0</div>
+        </aside>
+        <section id="report-list">
+            <ul id="latest-reports"></ul>
+        </section>
+    </main>
+    <script src="js/default.js"></script>
+</body>
+</html>

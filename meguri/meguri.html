@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>めぐり｜こもれび</title>
+  <meta name="description" content="旅と地域のつながりをテーマにしたアプリ『めぐり』。自然と人のつながり、地域再生の世界観をやさしく温かく伝える特設ページ。" />
+  <link rel="icon" href="./img/komorebi.jpg" />
+  <link rel="stylesheet" href="./css/meguri.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/theme-warm.css" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H51V3XX5CG"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H51V3XX5CG');
+  </script>
+</head>
+
+<body>
+  <!-- ===== ナビゲーション ===== -->
+  <header class="nav" id="nav">
+    <a href="./meguri.html" class="brand" aria-label="特設トップ">
+      <img src="./img/meguri-icon.png" alt="めぐりアイコン" class="brand__logo">
+    </a>
+
+    <nav class="menu" id="menu" aria-label="主要メニュー">
+<!--      <button class="menu__item has-sub" id="aboutBtn" aria-expanded="false">アプリ概要</button>
+        <div class="submenu" id="aboutSub" aria-hidden="true" role="menu">
+        <a href="#concept"  class="submenu__link" role="menuitem">めぐりが生まれた理由</a>
+        <a href="#features" class="submenu__link" role="menuitem">アプリでできること</a>
+        <a href="#voices"   class="submenu__link" role="menuitem">地域の声</a>
+      </div> -->
+
+      <a class="menu__item" href="../index.html">こもれび公式ウェブサイト</a>
+      <a class="menu__item cta" href="#download">ダウンロード</a>
+    </nav>
+
+    <button class="hamburger" id="hamburger" aria-label="メニュー" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ===== ヒーロー ===== -->
+  <section class="hero" id="hero">
+    <div class="photo-ph"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <h1 class="hero__title hand fade-in">めぐり</h1>
+    </div>
+  </section>
+
+  <!-- ===== 2行コピー ===== -->
+  <section class="section tagline fade-in" id="tagline">
+    <div class="wrap center">
+      <p class="hand tagline__line">人も、風景も、想いも、めぐるアプリ。</p>
+      <!-- <p class="hand tagline__line slow">あなたと能登の新しい出会い</p> -->
+    </div>
+  </section>
+
+  <!-- ===== コンセプト ===== -->
+  <section class="section story fade-in" id="story">
+    <div class="wrap center">
+      <h2 class="sec-title hand">"めぐり"に込めた想い</h2>
+    </div>
+    <div class="wrap">
+        <div class="cards-3">
+            <div class="card card--step fade-in">
+                <div class="step-icon" aria-hidden="true">🔍</div>
+                <h3 class="hand">能登の魅力をめぐる</h3>
+                <p class="step-copy">能登には、美しい自然や四季折々の風景、能登牛や新鮮な魚介類、地酒など多彩な食文化があります。訪れる人々に、そうした能登の魅力をめぐり、楽しんでいただきたいです。</p>
+            </div>
+
+            <div class="card card--step fade-in">
+                <div class="step-icon" aria-hidden="true">🤝</div>
+                <h3 class="hand">人とのめぐり逢い</h3>
+                <p class="step-copy">このアプリを開発する過程で、地元の方々をはじめ、本当に多くの方々にご協力いただきました。活動を通じてめぐり逢えた方々とのご縁は、私たちにとって一生の宝物です。</p>
+            </div>
+
+            <div class="card card--step fade-in">
+                <div class="step-icon" aria-hidden="true">⏳</div>
+                <h3 class="hand">時のめぐり</h3>
+                <p class="step-copy">時代や時間の流れの中で、能登にたくさんの楽しいこと、幸せなこと、嬉しいことがめぐってくることを願っています。</p>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- ===== アプリでできること ===== -->
+  <section class="section features fade-in" id="features">
+    <div class="wrap center">
+      <h2 class="sec-title hand">アプリでできること</h2>
+    </div>
+
+    <div class="wrap">
+      <article class="feature row fade-in">
+        <div class="feature__text">
+          <h3 class="hand">観光マップ</h3>
+          <p>能登の観光スポットと飲食店が表示されているGPSマップ。<br>観光スポットに行くと、スポットを紹介するナレーション音声が流れます。</p>
+        </div>
+        <div class="feature__media"><div class="ph ph--app"><img src="img/app_feature1.jpg" alt="めぐりのマップ画面"></div></div>
+      </article>
+
+      <article class="feature row alt fade-in">
+        <div class="feature__text">
+          <h3 class="hand">復興ストーリー</h3>
+          <p>能登で活動している方へのインタビューを元に作成した記事を収録。<br>震災から現在に至るまでの歩みを知ることができます。</p>
+        </div>
+        <div class="feature__media"><div class="ph ph--app"><img src="img/app_feature2.jpg" alt="めぐりの復興ストーリー画面"></div></div>
+      </article>
+
+      <article class="feature row fade-in">
+        <div class="feature__text">
+          <h3 class="hand">観光スポット</h3>
+          <p>震災/復旧/復興の様子がわかる場所を観光スポットとしてご紹介。<br>自宅からでもナレーション音声が楽しめます。</p>
+        </div>
+        <div class="feature__media"><div class="ph ph--app"><img src="img/app_feature3.jpg" alt="めぐりの観光スポット画面"></div></div>
+      </article>
+
+      <article class="feature row alt fade-in">
+        <div class="feature__text">
+          <h3 class="hand">飲食店</h3>
+          <p>能登で営業中の飲食店を検索。<br>みんなが投稿した口コミで詳しい情報を知れます。</p>
+        </div>
+        <div class="feature__media"><div class="ph ph--app"><img src="img/app_feature4.jpg" alt="めぐりの飲食店画面"></div></div>
+      </article>
+
+      <article class="feature row fade-in">
+        <div class="feature__text">
+          <h3 class="hand">避難場所マップ</h3>
+          <p>緊急時に使える指定緊急避難場所情報を表示したGPSマップ。<br>オフライン状態でも使うことができます。</p>
+        </div>
+        <div class="feature__media"><div class="ph ph--app"><img src="img/app_feature5.jpg" alt="めぐりの指定緊急避難場所マップ画面"></div></div>
+      </article>
+
+      <article class="feature row alt fade-in" id="how">
+        <div class="feature__text">
+          <h3 class="hand">And more...</h3>
+          <p>新機能を鋭意開発中です。<br>アップデートをお待ちください。</p>
+        </div>
+        <div class="feature__media"><div class="ph ph--app"><img src="img/app_feature6.jpg" alt=""></div></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== ダウンロード ===== -->
+  <section class="section download fade-in" id="download">
+    <div class="wrap center">
+      <h2 class="sec-title hand">今すぐはじめる</h2>
+      <div class="dl-buttons">
+        <a class="btn" href="https://apps.apple.com/jp/app/%E3%82%81%E3%81%90%E3%82%8A-%E8%83%BD%E7%99%BB%E8%A6%B3%E5%85%89%E3%82%A2%E3%83%97%E3%83%AA/id6753098233">iOS</a>
+        <a class="btn" href="https://play.google.com/store/apps/details?id=com.komorebi.meguri">Android</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section features fade-in" id="features">
+    <div class="wrap center">
+      <h2 class="sec-title hand">協力者メッセージ</h2>
+    </div>
+
+    <div class="wrap">
+      <div class="ph ph--bg fade-in">
+        <h3>協力してくださった現地の皆さまへ</h3>
+        <p>このアプリを制作し、能登で活動を進めるにあたり、本当に多くの方々にご協力いただきました。<br>
+          私たちが能登を訪問した際、現地を案内してくださった方々、当時の様子や現在の状況を丁寧にお話しくださった方々、店舗の掲載を快く許可してくださった方々、そしてインタビューにご協力くださった皆さま。<br>
+          さらに、活動中に声をかけてくださったり、応援してくださった多くの方々にも、心より感謝申し上げます。<br>
+          皆さまのお力添えが、私たちにとってどれほど心強く、支えになったか計り知れません。<br>
+          このアプリ「めぐり」は、能登の魅力を伝え、観光客の方々が訪れる“きっかけ”をつくるために開発しました。しかし、それだけではありません。<br>
+          このアプリには、私たちを温かく迎え、支え、応援してくださった能登の皆さまへの“感謝の想い”を込めています。<br>
+          少しでも、このアプリが能登の観光や復興、そして地域の笑顔につながることを心から願っています。</p>
+      </div>
+<!--      <article class="feature row alt fade-in">
+        <div class="feature__text">
+          <h3 class="hand"></h3>
+          <p>さんからのメッセージ</p>
+        </div>
+        <div class="feature__media"><div class="ph ph--app"><img src="img/" alt=""></div></div>
+      </article>
+      <div class="ph ph--bg fade-in"><p>こもれびとさんの関わり</p></div>
+      <article class="feature row alt fade-in">
+          <div class="feature__text">
+            <h3 class="hand"></h3>
+            <p>さんからのメッセージ</p>
+          </div>
+          <div class="feature__media"><div class="ph ph--app"><img src="img/" alt=""></div></div>
+        </article>
+        <div class="ph ph--bg fade-in"><p>こもれびとさんの関わり</p></div>
+    </div>-->
+  </section>
+
+  <!-- ===== 未来（寄付） ===== -->
+  <section class="section future fade-in" id="donate">
+    <div class="wrap center">
+      <h2 class="sec-title hand">“めぐり”が描くこれから</h2>
+      <p>地域と人が支え合う未来を、一緒に築いていきましょう。</p>
+      <a class="btn" href="../support.html">寄付する</a>
+    </div>
+  </section>
+
+  <!-- ===== フッター ===== -->
+  <footer class="footer" id="contact">
+    <div class="wrap footer__grid">
+      <nav class="footer__col">
+        <h4>リンク</h4>
+        <ul>
+          <li><a href="../index.html">こもれび公式サイト</a></li>
+          <li><a href="#download">ダウンロード</a></li>
+        </ul>
+      </nav>
+      <nav class="footer__col">
+        <h4>SNS</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/komorebi_volo/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        </ul>
+      </nav>
+      <nav class="footer__col">
+        <h4>ポリシー</h4>
+        <ul>
+          <li><a href="./terms_of_service.html">利用規約</a></li>
+          <li><a href="./privacy_policy.html">プライバシーポリシー</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="wrap footer__bottom">
+      <small>© <span id="y"></span> こもれび</small>
+    </div>
+  </footer>
+
+  <script src="./js/meguri.js" defer></script>
+</body>
+</html>

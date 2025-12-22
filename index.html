@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>こもれび</title>
+  <meta name="theme-color" content="#66b58a">
+  <link rel="icon" href="img/こもれび.png" type="image/png">
+
+  <!-- 既存のCSS -->
+  <link rel="stylesheet" type="text/css" href="css/default.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/theme-komorebi.css">
+  <link rel="stylesheet" href="css/komorebi-innov.css?v=aggr2">
+
+  <!-- ▼ チェキ専用の強制スタイル（他スタイルの干渉を無効化） -->
+  <style id="cheki-style">
+    /* 既存のフィルム/スライダー系を #latest-reports 範囲で無力化 */
+    #latest-reports *{ animation:none!important; transition:none!important; }
+    #latest-reports .film,#latest-reports .roll,#latest-reports .scene,
+    #latest-reports .panel,#latest-reports .frame,#latest-reports .card,
+    #latest-reports .item{
+      background:transparent!important; box-shadow:none!important; filter:none!important;
+      transform:none!important; border:none!important; outline:none!important; mix-blend-mode:normal!important;
+    }
+
+    /* チェキの並び */
+    #latest-reports.cheki-mode{
+      list-style:none; padding:0; margin:24px 0 0;
+      display:grid!important; gap:18px;
+      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+      perspective:1200px;
+    }
+    /* 1枚のチェキ（紙） */
+    #latest-reports.cheki-mode .cheki{
+      position:relative; background:#fff!important;
+      padding:10px 10px 26px!important;  /* 下フチ厚め */
+      border-radius:10px;
+      box-shadow:0 18px 28px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.12)!important;
+      transform-origin:50% 12%;
+      outline:1px solid rgba(0,0,0,.05);
+    }
+    #latest-reports.cheki-mode .cheki[data-rot]{ rotate:var(--rot,0deg); }
+    #latest-reports.cheki-mode .cheki[data-tilt="l"]{ transform:rotateX(.5deg) rotateY(-.6deg); }
+    #latest-reports.cheki-mode .cheki[data-tilt="r"]{ transform:rotateX(.5deg) rotateY(.6deg); }
+    #latest-reports.cheki-mode .cheki:hover{
+      transform:translateY(-3px) scale(1.012);
+      box-shadow:0 26px 40px rgba(0,0,0,.22), 0 6px 14px rgba(0,0,0,.10)!important;
+      z-index:1; filter:saturate(1.04);
+    }
+    /* 写真面 */
+    #latest-reports.cheki-mode .cheki__window{
+      aspect-ratio:4/3; border-radius:8px; overflow:hidden; background:#f0f0f0;
+      position:relative; outline:1px solid rgba(0,0,0,.06);
+    }
+    #latest-reports.cheki-mode .cheki__img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      opacity:1!important; visibility:visible!important; filter:none!important; mix-blend-mode:normal!important;
+    }
+    /* キャプション */
+    #latest-reports.cheki-mode .cheki__caption{ margin-top:10px; line-height:1.5; color:#202825; }
+    #latest-reports.cheki-mode .cheki__title{
+      text-decoration:none; color:inherit; font-weight:700;
+      border-bottom:2px dotted rgba(0,0,0,.25); padding-bottom:2px;
+    }
+    #latest-reports.cheki-mode .cheki__meta{ display:block; margin-top:6px; font-size:.86rem; color:#4b5e56; opacity:.95; }
+
+    @media (max-width:480px){
+      #latest-reports.cheki-mode{ gap:16px; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); }
+      #latest-reports.cheki-mode .cheki{ padding:8px 8px 22px!important; border-radius:9px; }
+      #latest-reports.cheki-mode .cheki__window{ border-radius:7px; }
+    }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H51V3XX5CG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-H51V3XX5CG');
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">本文へスキップ</a>
+
+  <header>
+    <div id="logo_area">
+      <a href="/index.html"><figure id="logo"></figure></a>
+    </div>
+    <div class="header-container">
+      <button class="menu-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="メニューを開く">&#9776;</button>
+    </div>
+    <ul id="primary-nav" class="navbar" role="menubar">
+      <li role="none"><a role="menuitem" href="/index.html">トップページ</a></li>
+      <li role="none"><a role="menuitem" href="/about.html">こもれびについて</a></li>
+      <li role="none"><a role="menuitem" href="/report.html">活動報告</a></li>
+      <li role="none"><a role="menuitem" href="/support.html">寄付・協賛</a></li>
+      <li role="none"><a role="menuitem" href="/contact.html">お問い合わせ</a></li>
+      <li role="none"><a role="menuitem" href="https://www.instagram.com/komorebi_volo/">Instagram</a></li>
+    </ul>
+  </header>
+
+  <main id="main">
+    <!-- ヒーロー -->
+    <div class="hero-wrap" aria-label="サイトのハイライト">
+      <div class="hero" id="hero">
+        <div class="slides" id="slides">
+          <article class="slide">
+            <img class="slide__img" src="img/hero1.jpg" alt="ヒーロー画像1" loading="eager">
+            <div class="slide__overlay"><div>
+              <div class="slide__title">キャッチコピーが入ります</div>
+              <p class="slide__desc">団体の魅力や最新情報を 1〜2 行で。</p>
+            </div></div>
+          </article>
+          <article class="slide">
+            <img class="slide__img" src="img/hero2.jpg" alt="ヒーロー画像2" loading="lazy">
+            <div class="slide__overlay"><div>
+              <div class="slide__title">見出しテキスト</div>
+              <p class="slide__desc">イベント告知などに。</p>
+            </div></div>
+          </article>
+          <article class="slide">
+            <img class="slide__img" src="img/hero3.jpg" alt="ヒーロー画像3" loading="eager">
+            <div class="slide__overlay"><div>
+              <div class="slide__title">キャッチコピーが入ります</div>
+              <p class="slide__desc">団体の魅力や最新情報を 1〜2 行で。</p>
+            </div></div>
+          </article>
+          <article class="slide">
+            <img class="slide__img" src="img/hero4.jpg" alt="ヒーロー画像4" loading="eager">
+            <div class="slide__overlay"><div>
+              <div class="slide__title">キャッチコピーが入ります</div>
+              <p class="slide__desc">団体の魅力や最新情報を 1〜2 行で。</p>
+            </div></div>
+          </article>
+          <article class="slide">
+            <img class="slide__img" src="img/hero5.jpg" alt="ヒーロー画像5" loading="eager">
+            <div class="slide__overlay"><div>
+              <div class="slide__title">キャッチコピーが入ります</div>
+              <p class="slide__desc">団体の魅力や最新情報を 1〜2 行で。</p>
+            </div></div>
+          </article>
+          <article class="slide">
+            <img class="slide__img" src="img/hero6.jpg" alt="ヒーロー画像6" loading="eager">
+            <div class="slide__overlay"><div>
+              <div class="slide__title">キャッチコピーが入ります</div>
+              <p class="slide__desc">団体の魅力や最新情報を 1〜2 行で。</p>
+            </div></div>
+          </article>
+          <article class="slide">
+            <img class="slide__img" src="img/hero7.jpg" alt="ヒーロー画像7" loading="eager">
+            <div class="slide__overlay"><div>
+              <div class="slide__title">キャッチコピーが入ります</div>
+              <p class="slide__desc">団体の魅力や最新情報を 1〜2 行で。</p>
+            </div></div>
+          </article>
+          <article class="slide">
+            <img class="slide__img" src="img/hero8.jpg" alt="ヒーロー画像8" loading="eager">
+            <div class="slide__overlay"><div>
+              <div class="slide__title">キャッチコピーが入ります</div>
+              <p class="slide__desc">団体の魅力や最新情報を 1〜2 行で。</p>
+            </div></div>
+          </article>
+          <article class="slide">
+            <img class="slide__img" src="img/hero10.jpg" alt="ヒーロー画像10" loading="eager">
+            <div class="slide__overlay"><div>
+              <div class="slide__title">キャッチコピーが入ります</div>
+              <p class="slide__desc">団体の魅力や最新情報を 1〜2 行で。</p>
+            </div></div>
+          </article>
+        </div>
+        <div class="ctrl">
+          <button class="btn btn--prev" id="prev" type="button">❮</button>
+          <button class="btn btn--next" id="next" type="button">❯</button>
+          <div class="dots" id="dots"></div>
+        </div>
+      </div>
+        </div>
+
+    <section class="about-details">
+      <h2>問い合わせ</h2>
+      <p>お問い合せ・ご相談・ご連絡はメールにて受け付けております。<br>
+        ｢こもれび」は任意団体として活動しております。取材や寄付・協賛に関するご相談は、大学等の外部機関を通さず、直接こもれびのメールアドレスまでお願いいたします。</p>
+      <p>団体メールアドレス：<a href="mailto:komorebi.volo@gmail.com">komorebi.volo@gmail.com</a></p>
+    </section>
+    <div class="btn-container">
+      <a href="./meguri/meguri.html" class="special-btn">能登観光アプリ"めぐり"特設ページへ</a>
+    </div>
+
+    <!-- お知らせ -->
+    <!-- <section class="about-details">
+      <h2>お知らせ</h2>
+      <ul class="bullet">
+        <li>2024.12.31 <a href="contact.html">新機能の希望があれば</a></li>
+        <li>2024.12.30 <a href="contact.html">サイトで紹介させていただく団体を募集しています</a></li>
+        <li>2024.12.30 <a href="contact.html">協力してくださる団体を募集しています</a></li>
+      </ul>
+    </section> -->
+
+    <!-- 活動報告：チェキ化 -->
+    <section class="about-details">
+      <h2><a href="/report.html">活動報告</a></h2>
+      <ul id="latest-reports" aria-live="polite"></ul>
+    </section>
+
+    <!-- 連絡先 -->
+    <section class="about-details">
+      <h2>ご協力のお願い</h2>
+      <p>協賛や寄付、なんらかの形でご支援をご検討くださる場合は、以下のメールアドレスにご連絡ください。</p>
+      <p>団体メールアドレス：<a href="mailto:komorebi.volo@gmail.com">komorebi.volo@gmail.com</a></p>
+    </section>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+
+  <footer class="site-footer">
+    <p>© こもれび / Komorebi</p>
+  </footer>
+
+  <!-- 既存のJS（ヒーローや共通UI） -->
+  <script src="js/default.js" defer></script>
+  <script src="js/hero.js?v=fix6" defer></script>
+  <!-- 衝突回避のため innov.js は一旦外しています。戻す場合は次行を有効化 -->
+  <!-- <script src="js/innov.js?v=aggr2" defer></script> -->
+
+  <!-- ▼ チェキ描画（軽量・ループなし・report_list/<ID>/1.jpg 自動解決） -->
+  <script>
+  (function(){
+    'use strict';
+
+    const UL_ID = 'latest-reports';
+    const PLACEHOLDER_1 = 'img/cheki-placeholder.jpg';
+    const PLACEHOLDER_2 = 'img/hero1.jpg';
+    const FALLBACK_DATAURI =
+      'data:image/svg+xml;utf8,' +
+      encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="#e9ecef"/><text x="50%" y="50%" font-size="26" text-anchor="middle" fill="#667" dy=".3em">No Image</text></svg>');
+
+    const randDeg = (min=-4, max=4)=> (Math.random()*(max-min)+min).toFixed(2);
+    const randTilt = ()=> (Math.random()<.5 ? 'l' : 'r');
+
+    function buildImageCandidates(a){
+      const arr = v => (Array.isArray(v) ? v : [v]).filter(Boolean).map(s=>String(s).trim());
+
+      // 明示キー最優先（thumbnail/image/img/cover/picture/photo/src）
+      const explicit = arr(a?.thumbnail)
+        .concat(arr(a?.image), arr(a?.img), arr(a?.cover), arr(a?.picture), arr(a?.photo), arr(a?.src));
+
+      // report_list/<ID> を url/id から推測
+      const url = String(a?.url || a?.link || '').trim();
+      const id  = String(a?.id  || a?.slug || '').trim();
+      let folder = '';
+      const m1 = url.match(/(report_list\/[^\/?#]+)/);   // 例: /report_list/250218/...
+      const m2 = id.match(/^([0-9A-Za-z\-_]+)$/);        // 例: 250218
+      if (m1) folder = m1[1];
+      else if (m2) folder = `report_list/${m2[1]}`;
+
+      // 代表名（既定1.jpg）＋任意指定（photo/filename/coverName）
+      const overrides = arr(a?.photo || a?.filename || a?.coverName); // 例: "monzen.jpg"
+      const defaultNames = ['1','main','cover','0','first','monzen'];
+      const names = [...overrides, ...defaultNames];
+      const exts  = ['jpg','jpeg','png','webp'];
+
+      const guessed = [];
+      if (folder){
+        names.forEach(n=>{
+          if (/\.(jpg|jpeg|png|webp)$/i.test(n)) guessed.push(`${folder}/${n}`);
+          else exts.forEach(ext => guessed.push(`${folder}/${n}.${ext}`));
+        });
+      }
+
+      // 明示がファイル名だけならフォルダと合成
+      const explicitWithFolder = [];
+      if (folder){
+        explicit.forEach(p=>{
+          if (!/^(https?:|data:|blob:|\/)/i.test(p) && !p.includes('/')) explicitWithFolder.push(`${folder}/${p}`);
+        });
+      }
+
+      // ./ を除去
+      const normalizedExplicit = explicit.map(p => p.replace(/^\.\//,''));
+
+      const candidates = [
+        ...explicitWithFolder,
+        ...normalizedExplicit,
+        ...guessed,
+        PLACEHOLDER_1,
+        PLACEHOLDER_2,
+        FALLBACK_DATAURI
+      ];
+      return Array.from(new Set(candidates));
+    }
+
+    function setImgWithFallback(imgEl, candidates){
+      let i = 0;
+      const tryNext = ()=> { imgEl.src = candidates[i++]; };
+      imgEl.onerror = ()=> { if (i < candidates.length) tryNext(); };
+      tryNext();
+    }
+
+    function renderCheki(listEl, items){
+      listEl.classList.add('cheki-mode');
+      // display:none !important を打ち消し
+      listEl.style.setProperty('display','grid','important');
+
+      listEl.innerHTML = '';
+      (items||[]).slice(0, 9).forEach(a=>{
+        const li = document.createElement('li');
+        li.className = 'cheki';
+        const deg = randDeg(); li.style.setProperty('--rot', deg+'deg');
+        li.dataset.rot = deg; li.dataset.tilt = randTilt();
+
+        const date  = (a?.date || '').trim();
+        const title = (a?.title || '（無題）').trim();
+        const url   = (a?.url   || '#').trim();
+        const alt   = (a?.alt || title || '活動写真');
+
+        li.innerHTML = `
+          <figure class="cheki__window">
+            <img class="cheki__img" alt="${alt}" loading="lazy">
+          </figure>
+          <div class="cheki__caption">
+            <a class="cheki__title" href="${url}">${title}</a>
+            <span class="cheki__meta">${date}</span>
+          </div>
+        `;
+        const img = li.querySelector('.cheki__img');
+        setImgWithFallback(img, buildImageCandidates(a));
+
+        // 念のため可視化
+        requestAnimationFrame(()=>{ img.style.opacity='1'; img.style.visibility='visible'; img.style.filter='none'; img.style.mixBlendMode='normal'; });
+
+        listEl.appendChild(li);
+      });
+
+      if (!listEl.children.length){
+        // 0件ならダミー1枚
+        listEl.innerHTML = `
+          <li class="cheki" style="--rot:1.2deg" data-tilt="l">
+            <figure class="cheki__window">
+              <img class="cheki__img" src="${PLACEHOLDER_2}" alt="活動写真" loading="lazy">
+            </figure>
+            <div class="cheki__caption">
+              <span class="cheki__title" role="text">活動記録を準備中です</span>
+              <span class="cheki__meta">${new Date().toLocaleDateString('ja-JP')}</span>
+            </div>
+          </li>`;
+      }
+    }
+
+    function main(){
+      const list = document.getElementById(UL_ID);
+      if (!list) return;
+
+      fetch('articles.json')
+        .then(r => r.json())
+        .then(data => {
+          let arr = [];
+          if (Array.isArray(data)) arr = data;
+          else if (Array.isArray(data?.articles)) arr = data.articles;
+          else if (Array.isArray(data?.items)) arr = data.items;
+
+          renderCheki(list, arr);
+        })
+        .catch(() => {
+          // 最低限の既知サンプル（必要に応じて編集/削除）
+          const fallback = [
+            {date:'2025.02.18', title:'スタディツアー', url:'/report_list/250218/index.html', photo:'1.jpg'},
+            {date:'2025.05.04', title:'清掃活動',       url:'/report_list/250504/index.html', photo:'1.jpg'},
+            {date:'2025.08.11', title:'門前での活動',   url:'/report_list/250811/index.html', photo:'monzen.jpg'}
+          ];
+          renderCheki(list, fallback);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', main, {once:true});
+    } else {
+      main();
+    }
+  })();
+  </script>
+  <!-- ▲ /チェキ描画 -->
+
+  <!-- ▼ “こもれびの想い”だけを除去（元の仕様。不要なら削除可） -->
+  <script>
+  (function(){
+    'use strict';
+    document.addEventListener('DOMContentLoaded', ()=>{
+      try{
+        const sections = document.querySelectorAll('main section.about-details');
+        sections.forEach(sec=>{
+          const h2 = sec.querySelector('h2');
+          const label = h2 ? h2.textContent.replace(/\s/g,'') : '';
+          const isKeep = (label==='お知らせ' || label.includes('活動報告') || label==='連絡先');
+          if(isKeep) return;
+          const txt = (sec.textContent||'').replace(/\s/g,'');
+          const isOmoi = txt.includes('こもれびの想い') || txt.includes('安心と温もりを、自然体で。') || txt.includes('安心と温もりを自然体で');
+          if(isOmoi) sec.remove();
+        });
+      }catch(e){ console.warn('想い除去スクリプトで警告:', e); }
+    }, {once:true});
+  })();
+  </script>
+  <!-- ▲ /除去 -->
+</body>
+</html>

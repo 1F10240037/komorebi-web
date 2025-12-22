@@ -1,0 +1,309 @@
+/* ===== ベーススタイル ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { width: 100%; }
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  background-color: #ffffff; /* デフォルトは白（origin/production） */
+}
+
+/* オプション：HEADの青背景＆横スクロール抑止を使いたい場合は <body class="theme-blue"> */
+body.theme-blue {
+  background-color: #9dcefc;
+  overflow-x: hidden;
+}
+
+/* ===== ヘッダー ===== */
+header {
+  position: fixed; top: 0; left: 0; width: 100%;
+  background-color: #333; color: white;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.5rem 1rem; z-index: 1000; font-size: 18px;
+}
+
+/* ロゴ */
+#logo {
+  width: 150px; height: 50px;
+  background-image: url('../img/komorebi.png');
+  background-size: contain; background-repeat: no-repeat;
+  background-position: left center;
+  flex-shrink: 0;
+}
+
+/* タイトルとハンバーガー */
+.header-container { display: flex; align-items: center; gap: 1rem; }
+.site-title { font-size: 18px; color: white; }
+
+/* ハンバーガーメニュー */
+.menu-toggle {
+  background: none; border: none; color: white;
+  font-size: 24px; cursor: pointer; display: none; /* PCでは非表示 */
+}
+
+/* ===== ナビゲーション ===== */
+.navbar { display: flex; gap: 1.5rem; list-style: none; }
+.navbar li a { color: white; font-weight: bold; text-decoration: none; }
+.navbar li a:hover { color: #ff9800; text-decoration: underline; }
+
+/* ===== メイン（ヘッダー分だけ下げる） ===== */
+:root { --header-h: 72px; }  /* hero.js が上書き可能 */
+main { padding-top: var(--header-h); }
+
+/* ===== セクション ===== */
+/* origin/productionの汎用余白を活かす */
+section {
+  margin: 30px auto;
+  max-width: 800px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* HEADのカード風スタイルは .about-details に限定してヒーローへ干渉しない */
+.about-details {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.about-details p { margin: 10px auto; }
+
+/* 見出し：h2=実線（HEAD）, h3=点線（origin/production） */
+.about-details h2 {
+  font-size: 1.5em; color: #3bccea;
+  border-bottom: 2px solid #dbe86c;
+  padding-bottom: 10px; margin-bottom: 15px; text-align: center;
+}
+
+.about-details h3 {
+  font-size: 1.5em;
+  border-bottom: 2px dotted #dbe86c;
+  padding-top: 25px;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.about-details h3 a { color: #0a9396; font-weight: bold; text-decoration: none; }
+.about-details h3 a:hover { text-decoration: underline; }
+
+.about-details ul,
+.about-details ol { padding-left: 30px; margin-bottom: 20px; }
+
+.about-details ul li,
+.about-details ol li { display: list-item; margin: 5px 0; font-size: 16px; }
+
+/* ===== ヒーローの衝突回避（HEADの意図：hero.cssに委譲） ===== */
+.hero-wrap {
+  margin: 0 !important; padding: 0 !important;
+  max-width: none !important; border: 0 !important;
+  border-radius: 0 !important; box-shadow: none !important;
+  background: transparent !important;
+}
+.hero {
+  margin: 0 !important; padding: 0 !important;
+  background: transparent !important; color: inherit !important;
+  border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+  text-align: initial !important;
+}
+
+.title {
+    text-align: center;
+    color: brack;
+    padding: 40px 20px;
+    padding: 20px 20px;
+}
+
+.title h1 {
+    font-size: 2.5em;
+    margin-bottom: 0px;
+    border-bottom: 4px solid #dbe86c;
+}
+
+.hero h2 {
+    margin-top: 20px;
+    border-bottom: 4px solid #dbe86c;
+}
+
+/* ===== リンク & 画像 ===== */
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; height: auto; }
+
+/* 画像レイアウト（記事側の便利クラス） */
+.image-pair {
+  display: flex; justify-content: center; gap: 4px; margin-bottom: 4px;
+}
+.image-pair img {
+  flex: 1 1 0; max-width: calc(50% - 2px); height: auto;
+}
+
+.image-grid {
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto;
+  gap: 4px; max-width: 100%; margin-bottom:4px;
+}
+.image-grid img { width: 100%; height: auto; object-fit: cover; }
+
+/* フォーム埋め込み */
+.form-container { width: 100%; max-width: 100%; box-sizing: border-box; margin: 20px 0; }
+.form-container iframe { width: 100%; height: 1500px; border: none; }
+
+/* ===== 記事リスト（リッチ表示用） ===== */
+#latest-reports { list-style: none; padding: 0; margin: 0; }
+
+#latest-reports .article-item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1rem;
+}
+
+.article-img {
+  width: 150px; height: 100px; object-fit: cover;
+  border-radius: 8px; flex-shrink: 0;
+}
+
+.article-content {
+  flex: 1; display: flex; flex-direction: column; gap: 0.7rem;
+}
+
+.article-meta {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.9rem; color: #666; margin-bottom: 0.25rem;
+}
+
+.article-tags .tag {
+  background-color: #eef; color: #336; font-size: 0.8rem;
+  padding: 2px 6px; border-radius: 4px;
+}
+
+.article-title {
+  font-weight: bold; color: #333; text-decoration: none; line-height: 1.4;
+}
+.article-title:hover { text-decoration: underline; }
+
+/* 右カラム（タグ検索）固定 */
+#tag-search {
+  position: fixed; top: 100px; right: 20px;
+  width: 25vw; min-width: 200px; max-width: 1000px;
+  background-color: #f9f9f9;
+  padding: 20px; border-radius: 10px; border: 1px solid #ddd;
+  height: auto; z-index: 999; overflow: auto;
+}
+#tag-search h2 { font-size: 1.2em; margin-bottom: 10px; }
+#tag-search input {
+  width: 100%; padding: 8px; margin-bottom: 15px;
+  border: 1px solid #ccc; border-radius: 5px;
+}
+#tag-list .tag {
+  display: inline-block; background-color: #eef; color: #336;
+  padding: 4px 8px; margin: 3px; border-radius: 5px; font-size: 0.9em;
+  line-height: 1.2; font-weight: normal; min-width: 40px; text-align: center;
+  box-sizing: border-box; cursor: pointer; user-select: none;
+}
+#tag-list .tag.selected {
+  background-color: #336; color: #fff; font-weight: normal;
+}
+
+#search-input {
+  min-height: 40px; border: 1px solid #ccc; border-radius: 5px;
+  padding: 5px; margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 5px;
+  background-color: #fff; cursor: default;
+}
+#search-input .tag {
+  display: inline-block; background-color: #eef; color: #336;
+  padding: 2px 8px; border-radius: 5px; font-size: 0.9em;
+}
+
+/* 戻るボタンのデザイン */
+.back-button-container { text-align: center; margin: 50px 0; }
+.back-button {
+  background-color: #2b6b4d; color: #fff; border: none;
+  padding: 12px 28px; font-size: 16px; border-radius: 30px; cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.back-button:hover { background-color: #3b8561; transform: scale(1.05); }
+.back-button:active { transform: scale(0.98); }
+
+/* シェアボタン（アニメーションなし） */
+.share-container { text-align: center; margin: 60px 0; }
+.share-container p { font-size: 18px; margin-bottom: 10px; color: #333; }
+
+.btn-container {
+  text-align: center; /* 横方向の中央揃え */
+  margin: 60px 0;    /* 上下に余白を追加して見やすく */
+}
+.special-btn {
+  display: inline-block;
+  background: linear-gradient(90deg, #ff7a18, #af002d 85%, #319197);
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: 18px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: pulse 2s infinite;
+}
+
+/* ホバー時のアニメーション */
+.special-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* ゆらめくアニメーション */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 122, 24, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(255, 122, 24, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 122, 24, 0);
+  }
+}
+
+/* ===== スマホ用レスポンシブ ===== */
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+
+  .navbar {
+    display: none; /* 初期非表示（ハンバーガーで開閉） */
+    flex-direction: column;
+    background: #1fbcd8;
+    position: absolute; top: 100%; left: 0; width: 100%; padding: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .navbar.active { display: flex; }
+  .navbar li {
+    display: flex; justify-content: flex-end; margin: 0; height: 50px; align-items: center;
+  }
+  .navbar li a {
+    text-align: center; padding: 20px 20px; font-size: 18px; width: auto;
+  }
+
+  /* 旧ヒーローのモバイル見出しサイズ（必要時に .hero-legacy と併用） */
+  .hero-legacy .hero h1 { font-size: 28px; }
+
+  /* タグ検索カラムはモバイルで固定解除して本文下へ */
+  #tag-search {
+    position: static; width: 90%; max-width: 600px; margin: 0 auto 20px auto;
+  }
+
+  .back-button { width: 80%; font-size: 18px; }
+  .share-btn img { width: 40px; height: 40px; }
+}
+
+/* 追加の見出しサイズ調整（任意） */
+@media (max-width: 480px) {
+  /* 記事用見出しの微調整があればここに */
+}

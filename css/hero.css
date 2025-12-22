@@ -1,0 +1,123 @@
+/* ============================
+   hero.css（コンテナ基準の設計）
+   ============================ */
+
+/* 全体の安全対策 */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* ヒーロー全体 */
+.hero-wrap {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+}
+
+/* 高さ設定（PC：全画面 / スマホ：やや低め） */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 70vh;
+  }
+}
+
+/* スライド全体（横に並ぶトラック） */
+.hero .slides {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.6s ease;
+}
+
+/* 各スライド */
+.hero .slide {
+  flex: 0 0 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 画像を「枠」に合わせてフィットさせる */
+.hero .slide__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* ← ここがポイント */
+  object-position: center;    /* 中央基準で表示 */
+  display: block;
+}
+
+/* 左右ボタン */
+.hero .btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: #222;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  z-index: 5;
+}
+
+.hero .btn--prev { left: 10px; }
+.hero .btn--next { right: 10px; }
+
+/* ドットナビゲーション */
+.hero .dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.hero .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  border: none;
+  cursor: pointer;
+}
+
+.hero .dot[aria-selected="true"] {
+  background: #1f7a4f;
+}
+
+
+/* ===== 初回フェードイン ===== */
+.hero {
+  opacity: 0;
+  transform: translateY(8px);             /* ほんの少しだけ持ち上げ演出 */
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  will-change: opacity, transform;
+}
+
+/* JSで .is-ready を付けたら表示 */
+.hero.is-ready {
+  opacity: 1;
+  transform: none;
+}
