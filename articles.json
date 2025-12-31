@@ -1,9 +1,10 @@
 [
+  { "date": "2025.12.31", "url": "report_list/251231/251231.html", "img": "img/komorebi_sq.png", "tag": ["ご挨拶"], "title": "2025年 年の瀬のご挨拶" },
   { "date": "2025.11.16", "url": "report_list/251116/251116.html", "img": "img/komorebi_sq.png", "tag": ["メディア", "新聞"], "title": "東京新聞にインタビュー記事が掲載されました。" },
   { "date": "2025.11.05", "url": "report_list/251105/251105.html", "img": "report_list/251105/tsubaki2.jpg", "tag": ["被災地", "能登", "めぐり"], "title": "輪島市・珠洲市にて「めぐり」開発のための現地調査を行いました。" },
   { "date": "2025.11.03", "url": "report_list/251103/251103.html", "img": "img/komorebi_sq.png", "tag": ["メディア", "新聞"], "title": "北陸中日新聞にインタビュー記事が掲載されました。" },
   { "date": "2025.10.19", "url": "report_list/251019-1/251019-1.html", "img": "img/komorebi_sq.png", "tag": ["メディア", "テレビ"], "title": "MBS『日曜日の初耳学』で紹介されました。" },
-  { "date": "2025.10.19", "url": "report_list/251019/251019.html", "img": "meguri/img/app_feature1.jpg", "tag": ["被災地", "能登", "めぐり"], "title": "能登観光アプリ「めぐり」をリリースしました。" },
+  { "date": "2025.10.19", "url": "report_list/251019/251019.html", "img": "report_list/251019/app_feature1.jpg", "tag": ["被災地", "能登", "めぐり"], "title": "能登観光アプリ「めぐり」をリリースしました。" },
   { "date": "2025.08.11", "url": "report_list/250811/250811.html", "img": "report_list/250811/monzen.jpg", "tag": ["被災地", "能登", "めぐり"], "title": "能登半島にてアプリ開発のための現地調査を行いました。" },
   { "date": "2025.05.04", "url": "report_list/250504/250504.html", "img": "report_list/250504/1.jpg", "tag": ["被災地", "能登"], "title": "石川県輪島市にてメンバーが一般家屋の泥のかき出し作業と現地調査を行いました。" },
   { "date": "2025.02.18", "url": "report_list/250218/250218.html", "img": "report_list/250218/2.jpg", "tag": ["被災地", "福島"], "title": "「2024年度春季 被災地のまちづくりを考え、発信するスタディツアー」にメンバーが参加しました。" }
