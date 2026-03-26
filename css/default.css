@@ -259,6 +259,38 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
 }
 
+/* 基本の並び（文章が左、画像が右） */
+.flex-container {
+    display: flex;
+    align-items: center; 
+    gap: 40px;
+}
+
+/* 明示的に左右を逆にしたい場合の設定 */
+.flex-container.reverse {
+    flex-direction: row-reverse;
+}
+
+/* 子要素（テキストと画像）の比率 */
+.text-content, .image-content {
+    flex: 1;
+}
+
+.image-content img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* スマホ表示：画面が狭いときは、reverseが付いていても一律で「画像が上」にする */
+@media (max-width: 768px) {
+    .flex-container, 
+    .flex-container.reverse {
+        flex-direction: column-reverse; /* 文が下、図が上になる並び */
+        gap: 20px;
+    }
+}
+
 /* ゆらめくアニメーション */
 @keyframes pulse {
   0% {
