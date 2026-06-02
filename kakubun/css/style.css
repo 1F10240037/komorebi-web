@@ -133,30 +133,42 @@ body {
 }
 
 /* --- 下部エリア --- */
+/* --- 下部エリア --- */
 .below-section { padding: 20px; }
+
+/* タイトルのスタイルを独立させました */
+.spot-title { 
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.4rem; 
+  color: var(--primary-color); 
+  border-bottom: 2px solid var(--accent-color); 
+  padding-bottom: 6px; 
+  margin-top: 0; 
+  margin-bottom: 15px; /* 写真との余白 */
+}
 
 .swiper { 
   width: 100%;
   border-radius: 8px; 
   background: #111;
-  overflow: hidden; /* 角丸を画像に適用するため */
+  overflow: hidden; 
+  margin-bottom: 15px; /* 説明文との余白を追加 */
 }
 
 /* スライドと画像の高さを自動（Auto）にする */
 .swiper-slide {
-  height: auto !important; /* Swiperのデフォルト高さを上書き */
+  height: auto !important; 
 }
 
 .swiper-slide img {
   width: 100%; 
-  height: auto; /* 高さを自動にして縦横比を維持 */
-  display: block; /* 下部の不要な余白を消す */
+  height: auto; 
+  display: block; 
   object-fit: cover; 
 }
 
-.description-area { margin-top: 20px; font-family: 'Noto Serif JP', serif; }
-.description-area h2 { font-size: 1.4rem; color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 6px; margin-top: 0; }
-.description-area p { font-size: 1.05rem; line-height: 1.8; color: #444; }
+.description-area { font-family: 'Noto Serif JP', serif; }
+.description-area p { font-size: 1.05rem; line-height: 1.8; color: #444; margin-top: 0; }
 
 /* --- 固定ボトムナビゲーション --- */
 .bottom-nav {
@@ -225,4 +237,34 @@ input[type="range"] { width: 100%; height: 6px; margin: 0; accent-color: var(--p
 /* --- ユーティリティ --- */
 .hidden {
   display: none !important;
+}
+
+/* --- 前後ボタンのアイコン化（くの字アロー） --- */
+.nav-btn.icon-prev::before,
+.nav-btn.icon-next::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-top: 3px solid #ffffff;
+  border-left: 3px solid #ffffff;
+  transition: border-color 0.2s;
+}
+
+/* 前へ（左向き） */
+.nav-btn.icon-prev::before {
+  transform: rotate(-45deg);
+  margin-left: 4px; /* 視覚的な中央揃えの微調整 */
+}
+
+/* 次へ（右向き） */
+.nav-btn.icon-next::before {
+  transform: rotate(135deg);
+  margin-right: 4px; /* 視覚的な中央揃えの微調整 */
+}
+
+/* 無効時のアイコンの色を少し薄くする */
+.nav-btn:disabled.icon-prev::before,
+.nav-btn:disabled.icon-next::before {
+  border-color: rgba(255, 255, 255, 0.6);
 }

@@ -158,31 +158,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  // --- スポットに応じた前後ボタンの出し分けロジック ---
   function updateNavButtons(index) {
     const data = spotsData[index];
 
-    prevBtn.classList.remove('special-btn');
-    nextBtn.classList.remove('special-btn');
+    // 初期化（クラスとテキストをリセット）
+    prevBtn.className = 'nav-btn'; // 基本クラスのみに戻す
+    nextBtn.className = 'nav-btn';
+    prevBtn.textContent = "";      // テキストを空にする
+    nextBtn.textContent = "";
     prevBtn.disabled = false;
     nextBtn.disabled = false;
 
     if (data.displayNum === "Pro") {
+      // イントロ：前へボタンは無効アイコン、次へボタンは「スタート」
       prevBtn.disabled = true;
-      prevBtn.textContent = "＜";
+      prevBtn.classList.add('icon-prev');
+      
       nextBtn.textContent = "スタート";
       nextBtn.classList.add('special-btn');
       
     } else if (data.displayNum === "Epi") {
-      prevBtn.textContent = "＜";
+      // アウトロ：前へはアイコン、次へボタンは「終了」
+      prevBtn.classList.add('icon-prev');
+      
       nextBtn.textContent = "終了";
       nextBtn.classList.add('special-btn');
       nextBtn.disabled = true; 
       
     } else {
-      prevBtn.textContent = "＜";
-      nextBtn.textContent = "＞";
+      // 通常スポット：両方ともアイコン
+      prevBtn.classList.add('icon-prev');
+      nextBtn.classList.add('icon-next');
       
+      // 最初の通常スポットの時、一つ前（Pro）に戻るボタン
       if (index === 0) prevBtn.disabled = true;
+      // 最後の通常スポットの時、次（Epi）に進む
       if (index === spotsData.length - 1) nextBtn.disabled = true;
     }
   }
