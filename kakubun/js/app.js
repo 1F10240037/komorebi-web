@@ -27,8 +27,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const spotTitle = document.getElementById('spotTitle');
   const spotDesc = document.getElementById('spotDesc');
   const imageSlider = document.getElementById('imageSlider');
-  
-  // ▼ 追加: 写真がない時に非表示にするため、Swiperの親コンテナを取得 ▼
   const swiperContainer = document.querySelector('.swiper');
 
   try {
@@ -40,12 +38,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function initApp() {
-    // 1. ハンバーガーメニュー内のリストを生成
+    // ハンバーガーメニュー内のリストを生成
     spotsData.forEach((spot, index) => {
       const li = document.createElement('li');
       li.dataset.index = index;
       
-      // 表記が数値の場合は「1 イベントホール」のように連結
       if(isNaN(spot.displayNum)) {
         li.textContent = spot.title;
       } else {
@@ -64,31 +61,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderPins();
     initSwiper();
 
-    // ハンバーガーメニュー開閉イベント
+    // イベントリスナー
     menuBtn.addEventListener('click', toggleMenu);
     menuOverlay.addEventListener('click', closeMenu);
 
-    // ナビゲーション
     prevBtn.addEventListener('click', () => changeSpot(currentIndex - 1));
     nextBtn.addEventListener('click', () => changeSpot(currentIndex + 1));
     btn1f.addEventListener('click', () => changeFloor(1));
     btn2f.addEventListener('click', () => changeFloor(2));
 
-    // 音声プレイヤー
     playBtn.addEventListener('click', togglePlay);
     audioElem.addEventListener('timeupdate', updateSeekBar);
     audioElem.addEventListener('loadedmetadata', () => {
       seekBar.max = audioElem.duration;
       durationDisplay.textContent = formatTime(audioElem.duration);
     });
+    
+    // 音声が最後まで再生された時に「再生マーク（▶）」に戻す処理
     audioElem.addEventListener('ended', () => {
-      playBtn.textContent = '▶';
-      playBtn.style.paddingLeft = '3px';
+      playBtn.classList.remove('playing');
     });
+    
     seekBar.addEventListener('input', () => { audioElem.currentTime = seekBar.value; });
   }
 
-  // --- ハンバーガーメニューの制御 ---
   function toggleMenu() {
     menuBtn.classList.toggle('open');
     sideMenu.classList.toggle('open');
@@ -104,9 +100,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   function changeSpot(index) {
     if (index < 0 || index >= spotsData.length) return;
     
+    // スポットが変わったら音声を止め、ボタンを「再生マーク（▶）」に戻す
     audioElem.pause();
-    playBtn.textContent = '▶';
-    playBtn.style.paddingLeft = '3px';
+    playBtn.classList.remove('playing');
 
     currentIndex = index;
     
@@ -128,25 +124,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   function renderSpot(index) {
     const data = spotsData[index];
     
-    // 表示テキスト更新
     spotTitle.textContent = isNaN(data.displayNum) ? data.title : `${data.displayNum}. ${data.title}`;
     spotDesc.textContent = data.description;
     audioElem.src = data.audio;
 
-    // リストのハイライト更新
     const listItems = spotList.querySelectorAll('li');
     listItems.forEach(li => {
       li.classList.toggle('current-active', parseInt(li.dataset.index) === index);
     });
 
-    // ボタンのテキスト・表示状態を状況に応じて更新
     updateNavButtons(index);
 
-    // ▼ 修正: 写真の有無を判定してスライダーの表示/非表示を切り替える ▼
     imageSlider.innerHTML = '';
     
     if (data.images && data.images.length > 0) {
-      // 写真がある場合：表示状態にして要素を追加
       swiperContainer.classList.remove('hidden');
       
       data.images.forEach(imgSrc => {
@@ -161,32 +152,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         swiperInstance.slideTo(0, 0);
       }
     } else {
-      // 写真がない場合：スライダー全体を隠す
       if (swiperContainer) {
         swiperContainer.classList.add('hidden');
       }
     }
-    // ▲ ここまで ▲
   }
 
-  // --- スポットに応じた前後ボタンの出し分けロジック ---
   function updateNavButtons(index) {
     const data = spotsData[index];
 
-    // 初期化（特殊クラスを外す）
     prevBtn.classList.remove('special-btn');
     nextBtn.classList.remove('special-btn');
     prevBtn.disabled = false;
     nextBtn.disabled = false;
 
-    // ▼ "Intro" -> "Pro" に変更
     if (data.displayNum === "Pro") {
       prevBtn.disabled = true;
       prevBtn.textContent = "＜";
       nextBtn.textContent = "スタート";
       nextBtn.classList.add('special-btn');
       
-    // ▼ "Outro" -> "Epi" に変更
     } else if (data.displayNum === "Epi") {
       prevBtn.textContent = "＜";
       nextBtn.textContent = "終了";
@@ -194,39 +179,31 @@ document.addEventListener('DOMContentLoaded', async () => {
       nextBtn.disabled = true; 
       
     } else {
-      // 通常スポット
       prevBtn.textContent = "＜";
       nextBtn.textContent = "＞";
       
-      // 最初の通常スポットの時、一つ前（Pro）に戻るボタン
       if (index === 0) prevBtn.disabled = true;
-      // 最後の通常スポットの時、次（Epi）に進む
       if (index === spotsData.length - 1) nextBtn.disabled = true;
     }
   }
 
-  // --- マップ上のピン描画ロジック ---
   function renderPins() {
     document.querySelectorAll('.map-pin').forEach(pin => pin.remove());
 
     spotsData.forEach((spot, index) => {
       if (spot.floor !== currentFloor) return;
-      // ▼ Pro と Epi はマップ上に表示しない
       if (spot.displayNum === "Pro" || spot.displayNum === "Epi") return; 
 
       const pin = document.createElement('div');
       
-      // 基本のクラス（現在選択中の場合は active を付与）
       pin.className = `map-pin ${index === currentIndex ? 'active' : ''}`;
       
-      // ▼ displayNum の値に応じてテキストとクラスを出し分け ▼
       if (spot.displayNum === "star") {
         pin.classList.add('pin-star');
         pin.textContent = "★";
       } else {
         pin.textContent = spot.displayNum;
         
-        // 16〜20の場合は緑色のクラスを付与
         const num = parseInt(spot.displayNum, 10);
         if (!isNaN(num) && num >= 16 && num <= 20) {
           pin.classList.add('pin-green');
@@ -241,16 +218,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // --- 音声関連ロジック ---
   function togglePlay() {
     if (audioElem.paused) {
       audioElem.play();
-      playBtn.textContent = '⏸';
-      playBtn.style.paddingLeft = '0';
+      playBtn.classList.add('playing'); 
     } else {
       audioElem.pause();
-      playBtn.textContent = '▶';
-      playBtn.style.paddingLeft = '3px';
+      playBtn.classList.remove('playing'); 
     }
   }
 
@@ -270,6 +244,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     swiperInstance = new Swiper('.mySwiper', {
       pagination: { el: '.swiper-pagination', clickable: true },
       loop: false,
+      autoHeight: true,
     });
   }
 });

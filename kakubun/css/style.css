@@ -104,32 +104,56 @@ body {
   color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   font-weight: bold; font-size: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 10;
 }
+
 /* --- 選択中のピンのハイライト仕様を変更 --- */
 /* 背景色を維持し、外側にアクセントカラーのリングをつけて目立たせます */
-
 .map-pin.active {
-  /* 選択時は少し大きくする */
   transform: translate(-50%, -50%) scale(1.3) !important;
   z-index: 20 !important;
-  
-  /* 外側にゴールドの太い縁取りと、少し濃い影を追加 */
   box-shadow: 0 0 0 4px var(--accent-color), 0 4px 10px rgba(0,0,0,0.4) !important;
 }
 
-/* 16~20番：緑アイコンが選択された時 */
+/* 16~20番：緑アイコン */
+.map-pin.pin-green {
+  background: #119f89;
+}
 .map-pin.pin-green.active {
   background-color: #119f89 !important;
 }
 
-/* star：星アイコンが選択された時 */
+/* star：星アイコン */
+.map-pin.pin-star {
+  background: #000000;
+  color: #fcfc4a;
+  font-size: 1.2rem;
+  padding-bottom: 2px;
+}
 .map-pin.pin-star.active {
   background-color: #000000 !important;
 }
 
 /* --- 下部エリア --- */
 .below-section { padding: 20px; }
-.swiper { width: 100%; height: 240px; border-radius: 8px; background: #111; }
-.swiper-slide img { width: 100%; height: 100%; object-fit: contain; }
+
+.swiper { 
+  width: 100%;
+  border-radius: 8px; 
+  background: #111;
+  overflow: hidden; /* 角丸を画像に適用するため */
+}
+
+/* スライドと画像の高さを自動（Auto）にする */
+.swiper-slide {
+  height: auto !important; /* Swiperのデフォルト高さを上書き */
+}
+
+.swiper-slide img {
+  width: 100%; 
+  height: auto; /* 高さを自動にして縦横比を維持 */
+  display: block; /* 下部の不要な余白を消す */
+  object-fit: cover; 
+}
+
 .description-area { margin-top: 20px; font-family: 'Noto Serif JP', serif; }
 .description-area h2 { font-size: 1.4rem; color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 6px; margin-top: 0; }
 .description-area p { font-size: 1.05rem; line-height: 1.8; color: #444; }
@@ -156,29 +180,49 @@ body {
 .nav-btn.special-btn { background: var(--accent-color); font-size: 1rem; padding: 0 16px; }
 
 .audio-player { display: flex; align-items: center; gap: 10px; flex-grow: 1; margin: 0 10px; }
+
+/* --- 既存の .play-btn の修正 --- */
 .play-btn {
   width: 48px; height: 48px; border-radius: 50%;
-  background: var(--accent-color); color: #fff; font-size: 1.2rem;
-  border: none; display: flex; align-items: center; justify-content: center;
-  padding-left: 3px; cursor: pointer; flex-shrink: 0;
+  background: var(--accent-color);
+  border: none;
+  cursor: pointer; flex-shrink: 0;
+  position: relative; /* 図形の基準位置 */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.1s;
 }
+.play-btn:active {
+  transform: scale(0.95);
+}
+
+/* --- 再生マーク（▶） --- */
+.play-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 55%; 
+  transform: translate(-50%, -50%);
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 8px 0 8px 12px;
+  border-color: transparent transparent transparent #ffffff;
+  transition: all 0.2s ease;
+}
+
+/* --- 一時停止マーク（⏸） --- */
+.play-btn.playing::before {
+  left: 50%; 
+  width: 4px; height: 16px;
+  border-width: 0;
+  background-color: #ffffff;
+  box-shadow: 8px 0 0 #ffffff;
+  transform: translate(-6px, -50%);
+}
+
 .seek-wrapper { flex-grow: 1; }
 input[type="range"] { width: 100%; height: 6px; margin: 0; accent-color: var(--primary-color); }
 .time-display { font-size: 0.8rem; color: #666; text-align: right; margin-top: 4px; }
 
+/* --- ユーティリティ --- */
 .hidden {
   display: none !important;
-}
-
-/* --- 16~20: 緑地に白文字 --- */
-.map-pin.pin-green {
-  background: #119f89; /* 視認性の高い落ち着いた緑 */
-}
-
-/* --- star: 黒地に黄色星マーク --- */
-.map-pin.pin-star {
-  background: #000000;
-  color: #fcfc4a;
-  font-size: 1.2rem; /* 星マークが見やすいように少し大きく */
-  padding-bottom: 2px; /* 星の垂直位置の微調整 */
 }
