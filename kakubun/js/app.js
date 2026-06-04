@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const nextBtn = document.getElementById('nextBtn');
   const btn1f = document.getElementById('btn-1f');
   const btn2f = document.getElementById('btn-2f');
+  const btnOut = document.getElementById('btn-out');
+
+  const thankYouModal = document.getElementById('thankYouModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
   
   // 音声プレイヤー
   const audioElem = document.getElementById('audioElem');
@@ -61,15 +65,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderPins();
     initSwiper();
 
-    // イベントリスナー
+    // イベントリスナー登録
     menuBtn.addEventListener('click', toggleMenu);
     menuOverlay.addEventListener('click', closeMenu);
 
+    // ナビゲーションボタン
     prevBtn.addEventListener('click', () => changeSpot(currentIndex - 1));
-    nextBtn.addEventListener('click', () => changeSpot(currentIndex + 1));
+    
+    // 次へ・終了ボタン（重複を解消し一本化）
+    nextBtn.addEventListener('click', () => {
+      const currentSpot = spotsData[currentIndex];
+      if (currentSpot && currentSpot.displayNum === "Epi") {
+        thankYouModal.classList.add('show'); // 自作ポップアップを表示
+        return;
+      }
+      changeSpot(currentIndex + 1);
+    });
+
+    // フロア切り替えボタン
     btn1f.addEventListener('click', () => changeFloor(1));
     btn2f.addEventListener('click', () => changeFloor(2));
+    btnOut.addEventListener('click', () => changeFloor(0)); // 屋外（floor: 0）
 
+    // ポップアップを閉じるボタン
+    modalCloseBtn.addEventListener('click', () => {
+      thankYouModal.classList.remove('show');
+    });
+
+    // 音声プレイヤー関連
     playBtn.addEventListener('click', togglePlay);
     audioElem.addEventListener('timeupdate', updateSeekBar);
     audioElem.addEventListener('loadedmetadata', () => {
@@ -77,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       durationDisplay.textContent = formatTime(audioElem.duration);
     });
     
-    // 音声が最後まで再生された時に「再生マーク（▶）」に戻す処理
+    // 音声が最後まで再生された時に再生マークに戻す
     audioElem.addEventListener('ended', () => {
       playBtn.classList.remove('playing');
     });
@@ -100,7 +123,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   function changeSpot(index) {
     if (index < 0 || index >= spotsData.length) return;
     
-    // スポットが変わったら音声を止め、ボタンを「再生マーク（▶）」に戻す
+    // スポットが変わったら音声を止め、再生ボタンの状態を戻す
     audioElem.pause();
     playBtn.classList.remove('playing');
 
@@ -115,9 +138,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function changeFloor(floor) {
     currentFloor = floor;
+    
+    // 各フロアボタンのアクティブ状態を制御
     btn1f.classList.toggle('active', floor === 1);
     btn2f.classList.toggle('active', floor === 2);
-    mapImage.src = floor === 1 ? 'img/map_1f.jpg' : 'img/map_2f.jpg';
+    btnOut.classList.toggle('active', floor === 0);
+    
+    // フロアごとのマップ画像切り替え
+    if (floor === 1) {
+      mapImage.src = 'img/map_1f.jpg';
+    } else if (floor === 2) {
+      mapImage.src = 'img/map_2f.jpg';
+    } else if (floor === 0) {
+      mapImage.src = 'img/map_out.jpg'; // 屋外用マップ
+    }
+    
     renderPins();
   }
 
@@ -163,37 +198,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     const data = spotsData[index];
 
     // 初期化（クラスとテキストをリセット）
-    prevBtn.className = 'nav-btn'; // 基本クラスのみに戻す
+    prevBtn.className = 'nav-btn'; 
     nextBtn.className = 'nav-btn';
-    prevBtn.textContent = "";      // テキストを空にする
+    prevBtn.textContent = "";      
     nextBtn.textContent = "";
     prevBtn.disabled = false;
     nextBtn.disabled = false;
 
     if (data.displayNum === "Pro") {
-      // イントロ：前へボタンは無効アイコン、次へボタンは「スタート」
       prevBtn.disabled = true;
       prevBtn.classList.add('icon-prev');
-      
       nextBtn.textContent = "スタート";
       nextBtn.classList.add('special-btn');
       
     } else if (data.displayNum === "Epi") {
       // アウトロ：前へはアイコン、次へボタンは「終了」
       prevBtn.classList.add('icon-prev');
-      
       nextBtn.textContent = "終了";
       nextBtn.classList.add('special-btn');
-      nextBtn.disabled = true; 
       
     } else {
-      // 通常スポット：両方ともアイコン
+      // 通常スポット：両方ともアイコン（くの字）
       prevBtn.classList.add('icon-prev');
       nextBtn.classList.add('icon-next');
       
-      // 最初の通常スポットの時、一つ前（Pro）に戻るボタン
       if (index === 0) prevBtn.disabled = true;
-      // 最後の通常スポットの時、次（Epi）に進む
       if (index === spotsData.length - 1) nextBtn.disabled = true;
     }
   }
@@ -206,7 +235,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (spot.displayNum === "Pro" || spot.displayNum === "Epi") return; 
 
       const pin = document.createElement('div');
-      
       pin.className = `map-pin ${index === currentIndex ? 'active' : ''}`;
       
       if (spot.displayNum === "star") {
