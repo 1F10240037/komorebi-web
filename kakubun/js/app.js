@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ナビゲーションボタン
     prevBtn.addEventListener('click', () => changeSpot(currentIndex - 1));
     
-    // 次へ・終了ボタン（重複を解消し一本化）
+    // 次へ・ゴールボタン（重複を解消し一本化）
     nextBtn.addEventListener('click', () => {
       const currentSpot = spotsData[currentIndex];
       if (currentSpot && currentSpot.displayNum === "Epi") {
@@ -212,9 +212,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       nextBtn.classList.add('special-btn');
       
     } else if (data.displayNum === "Epi") {
-      // アウトロ：前へはアイコン、次へボタンは「終了」
+      // アウトロ：前へはアイコン、次へボタンは「ゴール」
       prevBtn.classList.add('icon-prev');
-      nextBtn.textContent = "終了";
+      nextBtn.textContent = "ゴール";
       nextBtn.classList.add('special-btn');
       
     } else {
