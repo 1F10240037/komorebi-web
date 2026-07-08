@@ -1,199 +1,211 @@
-// =========================
-// default.js 置き換え版
-// 変更点はハンバーガー開閉まわりのみ（他ロジックは同一）
-// =========================
+/**
+ * default.js - 共通の基本スクリプト
+ * ハンバーガーメニュー、記事一覧表示、タグ検索などを一括管理します。
+ */
 
-// --- ハンバーガー開閉（堅牢化） ---
 document.addEventListener("DOMContentLoaded", function () {
-  const menuToggle = document.querySelector(".menu-toggle");
-  const navbar = document.querySelector(".navbar");
-  if (!menuToggle || !navbar) return;
+  'use strict';
 
-  const mq = window.matchMedia("(max-width: 768px)");
+  /* ============================================================
+     1. ハンバーガーメニューの制御
+     ============================================================ */
+  const initMenu = () => {
+    // 複数のセレクタ候補（既存の異なるクラス名に対応）
+    const menuToggle = document.querySelector(".menu-toggle, .hamburger");
+    const navbar = document.querySelector(".navbar, .menu");
+    if (!menuToggle || !navbar) return;
 
-  const openMenu = () => {
-    navbar.classList.add("active");
-    menuToggle.setAttribute("aria-expanded", "true");
-    if (mq.matches) document.body.style.overflow = "hidden"; // モバイル時は背面スクロール防止
-  };
+    const mq = window.matchMedia("(max-width: 768px)");
 
-  const closeMenu = () => {
-    navbar.classList.remove("active");
-    menuToggle.setAttribute("aria-expanded", "false");
-    document.body.style.overflow = ""; // 復帰
-  };
+    const openMenu = () => {
+      navbar.classList.add("active", "open");
+      menuToggle.setAttribute("aria-expanded", "true");
+      if (mq.matches) document.body.style.overflow = "hidden";
+    };
 
-  const toggleMenu = () => {
-    if (navbar.classList.contains("active")) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  };
-
-  // 既存のクリックでのトグルを拡張
-  menuToggle.addEventListener("click", function (e) {
-    e.stopPropagation();
-    toggleMenu();
-  });
-
-  // メニュー内リンクをクリックしたら閉じる
-  navbar.addEventListener("click", (e) => {
-    const a = e.target.closest("a");
-    if (a) closeMenu();
-  });
-
-  // ヘッダー外クリックで閉じる（モバイル時のみ）
-  document.addEventListener("click", (e) => {
-    if (!mq.matches) return;
-    const header = document.querySelector("header");
-    if (header && !header.contains(e.target)) {
-      closeMenu();
-    }
-  });
-
-  // Escキーで閉じる
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMenu();
-  });
-
-  // 画面幅がPCに戻ったら状態リセット（はみ出し防止）
-  const handleChange = () => {
-    if (!mq.matches) {
-      closeMenu();
+    const closeMenu = () => {
+      navbar.classList.remove("active", "open");
+      menuToggle.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
-    }
-  };
-  if (mq.addEventListener) {
-    mq.addEventListener("change", handleChange);
-  } else {
-    // 古いブラウザ向けフォールバック
-    window.addEventListener("resize", handleChange);
-  }
+    };
 
-  // 初期状態：モバイルでは閉じておく
-  closeMenu();
-});
-
-// =========================
-// 以下：記事/タグ/件数/戻るボタン（変更なし）
-// =========================
-
-let allArticles = [];
-let selectedTags = []; // 現在選択中のタグ
-
-fetch('articles.json')
-  .then(res => res.json())
-  .then(articles => {
-    allArticles = articles;
-    displayArticles(articles);
-    displayTags(articles);
-    updateHitCount(articles.length);
-  });
-
-// 記事リスト表示
-function displayArticles(articles) {
-  const list = document.getElementById('latest-reports');
-  list.innerHTML = '';
-
-  articles.forEach(article => {
-    const li = document.createElement('li');
-    li.classList.add('article-item');
-
-    const tagsHTML = article.tag.map(t => `<span class="tag">${t}</span>`).join(' ');
-
-    li.innerHTML = `
-      <img src="${article.img}" alt="${article.title}" class="article-img">
-      <div class="article-content">
-        <div class="article-meta">
-          <span class="article-date">${article.date}</span>
-          <div class="article-tags">${tagsHTML}</div>
-        </div>
-        <a href="${article.url}" class="article-title">${article.title}</a>
-      </div>
-    `;
-    list.appendChild(li);
-  });
-
-  updateHitCount(articles.length);
-}
-
-// タグ一覧表示
-function displayTags(articles) {
-  const tagSet = new Set();
-  articles.forEach(a => a.tag.forEach(t => tagSet.add(t)));
-
-  const tagList = document.getElementById('tag-list');
-  tagList.innerHTML = '';
-
-  tagSet.forEach(tag => {
-    const span = document.createElement('span');
-    span.classList.add('tag');
-    span.textContent = tag;
-
-    span.addEventListener('click', () => {
-      toggleTag(tag, span);
+    menuToggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (navbar.classList.contains("active") || navbar.classList.contains("open")) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
 
-    tagList.appendChild(span);
-  });
-}
+    navbar.addEventListener("click", (e) => {
+      if (e.target.closest("a")) closeMenu();
+    });
 
-function toggleTag(tag, element) {
-  const index = selectedTags.indexOf(tag);
-  if (index === -1) {
-    // 選択追加
-    selectedTags.push(tag);
-    element.classList.add('selected');
-  } else {
-    // 選択解除
-    selectedTags.splice(index, 1);
-    element.classList.remove('selected');
+    document.addEventListener("click", (e) => {
+      if (mq.matches) {
+        const header = document.querySelector("header, .nav");
+        if (header && !header.contains(e.target)) closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeMenu();
+    });
+
+    const handleChange = () => {
+      if (!mq.matches) {
+        closeMenu();
+        document.body.style.overflow = "";
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener("change", handleChange);
+    else window.addEventListener("resize", handleChange);
+
+    // 初期化時に一度リセット
+    closeMenu();
+  };
+
+  initMenu();
+
+  /* ============================================================
+     2. 記事一覧 / タグ検索ロジック
+     ============================================================ */
+  let allArticles = [];
+  let selectedTags = [];
+
+  const listEl = document.getElementById('latest-reports');
+  const tagListEl = document.getElementById('tag-list');
+  const searchInputEl = document.getElementById('search-input');
+
+  // index.html等の「チェキモード」は別途インラインまたは専用JSで制御される場合があるため、
+  // cheki-modeクラスがある場合は標準の描画ロジックを実行しない
+  const isChekiMode = listEl && listEl.classList.contains('cheki-mode');
+
+  if (listEl && !isChekiMode) {
+    // パス解決：階層に応じて articles.json を探す
+    const path = window.location.pathname;
+    const isSubdir = path.includes('/report_list/') || path.includes('/kokantecho/') || path.includes('/meguri/');
+    const depth = (path.match(/\//g) || []).length;
+    let jsonPath = 'articles.json';
+
+    // 簡易的な階層判定
+    if (path.includes('/report_list/')) jsonPath = '../../articles.json';
+    else if (isSubdir) jsonPath = '../articles.json';
+
+    fetch(jsonPath)
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
+      .then(data => {
+        allArticles = Array.isArray(data) ? data : (data.articles || data.items || []);
+        displayArticles(allArticles);
+        if (tagListEl) displayTags(allArticles);
+      })
+      .catch(err => console.warn('Articles could not be loaded:', err));
   }
 
-  // 検索バーに表示（spanタグで追加）
-  const searchDiv = document.getElementById('search-input');
-  searchDiv.innerHTML = ''; // クリア
+  function displayArticles(articles) {
+    if (!listEl) return;
+    listEl.innerHTML = '';
 
-  selectedTags.forEach(t => {
-    const span = document.createElement('span');
-    span.classList.add('tag', 'selected');
-    span.textContent = t;
-    searchDiv.appendChild(span);
-  });
+    const path = window.location.pathname;
+    const isSubdir = path.includes('/report_list/');
 
-  // 選択タグでOR検索（仕様通り）
-  filterBySelectedTags();
-}
+    articles.forEach(article => {
+      const li = document.createElement('li');
+      li.classList.add('article-item');
+      const tagsHTML = (article.tag || []).map(t => `<span class="tag">${t}</span>`).join(' ');
 
-// OR検索
-function filterBySelectedTags() {
-  if (selectedTags.length === 0) {
-    displayArticles(allArticles);
-    return;
+      // パス補正
+      let imgPath = article.img;
+      let urlPath = article.url;
+      if (isSubdir && !imgPath.startsWith('http') && !imgPath.startsWith('/')) imgPath = '../../' + imgPath;
+      if (isSubdir && !urlPath.startsWith('http') && !urlPath.startsWith('/')) urlPath = '../../' + urlPath;
+
+      li.innerHTML = `
+        <img src="${imgPath}" alt="${article.title}" class="article-img">
+        <div class="article-content">
+          <div class="article-meta">
+            <span class="article-date">${article.date}</span>
+            <div class="article-tags">${tagsHTML}</div>
+          </div>
+          <a href="${urlPath}" class="article-title">${article.title}</a>
+        </div>
+      `;
+      listEl.appendChild(li);
+    });
+    updateHitCount(articles.length);
   }
 
-  // どれか1つでもタグが含まれる記事を抽出
-  const filtered = allArticles.filter(article =>
-    article.tag.some(t => selectedTags.includes(t))
-  );
+  function displayTags(articles) {
+    if (!tagListEl) return;
+    const tagSet = new Set();
+    articles.forEach(a => (a.tag || []).forEach(t => tagSet.add(t)));
+    tagListEl.innerHTML = '';
 
-  displayArticles(filtered);
-}
+    tagSet.forEach(tag => {
+      const span = document.createElement('span');
+      span.classList.add('tag');
+      span.textContent = tag;
+      span.addEventListener('click', () => toggleTag(tag, span));
+      tagListEl.appendChild(span);
+    });
+  }
 
-// ヒット件数更新
-function updateHitCount(count) {
-  const el = document.getElementById('hit-count');
-  if (el) el.textContent = `ヒット件数: ${count}`;
-}
+  function toggleTag(tag, element) {
+    const index = selectedTags.indexOf(tag);
+    if (index === -1) {
+      selectedTags.push(tag);
+      element.classList.add('selected');
+    } else {
+      selectedTags.splice(index, 1);
+      element.classList.remove('selected');
+    }
 
-// 「お知らせ一覧に戻る」ボタンの動作
-document.addEventListener('DOMContentLoaded', () => {
+    if (searchInputEl) {
+      searchInputEl.innerHTML = '';
+      selectedTags.forEach(t => {
+        const span = document.createElement('span');
+        span.classList.add('tag', 'selected');
+        span.textContent = t;
+        searchInputEl.appendChild(span);
+      });
+    }
+    filterBySelectedTags();
+  }
+
+  function filterBySelectedTags() {
+    if (selectedTags.length === 0) {
+      displayArticles(allArticles);
+      return;
+    }
+    const filtered = allArticles.filter(article =>
+      (article.tag || []).some(t => selectedTags.includes(t))
+    );
+    displayArticles(filtered);
+  }
+
+  function updateHitCount(count) {
+    const el = document.getElementById('hit-count');
+    if (el) el.textContent = `ヒット件数: ${count}`;
+  }
+
+  /* ============================================================
+     3. 「戻る」ボタンの制御
+     ============================================================ */
   const backButton = document.getElementById('backButton');
   if (backButton) {
     backButton.addEventListener('click', () => {
-      // report.html へ戻る（お知らせ一覧ページ）
-      window.location.href = '/report.html';
+      const path = window.location.pathname;
+      if (path.includes('/report_list/')) {
+        window.location.href = '../../report.html';
+      } else if (path.includes('/kokantecho/') || path.includes('/meguri/')) {
+        window.location.href = '../report.html';
+      } else {
+        window.location.href = 'report.html';
+      }
     });
   }
 });

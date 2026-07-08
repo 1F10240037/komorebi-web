@@ -11,70 +11,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png" />
   <link rel="manifest" href="/img/favicon/site.webmanifest" />
 
-  <!-- 既存のCSS -->
+  <!-- 統合されたCSS -->
   <link rel="stylesheet" type="text/css" href="css/default.css">
   <link rel="stylesheet" href="css/hero.css">
-  <link rel="stylesheet" href="css/theme-komorebi.css">
-  <link rel="stylesheet" href="css/komorebi-innov.css?v=aggr2">
 
-  <!-- ▼ チェキ専用の強制スタイル（他スタイルの干渉を無効化） -->
-  <style id="cheki-style">
-    /* 既存のフィルム/スライダー系を #latest-reports 範囲で無力化 */
-    #latest-reports *{ animation:none!important; transition:none!important; }
-    #latest-reports .film,#latest-reports .roll,#latest-reports .scene,
-    #latest-reports .panel,#latest-reports .frame,#latest-reports .card,
-    #latest-reports .item{
-      background:transparent!important; box-shadow:none!important; filter:none!important;
-      transform:none!important; border:none!important; outline:none!important; mix-blend-mode:normal!important;
-    }
-
-    /* チェキの並び */
-    #latest-reports.cheki-mode{
-      list-style:none; padding:0; margin:24px 0 0;
-      display:grid!important; gap:18px;
-      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-      perspective:1200px;
-    }
-    /* 1枚のチェキ（紙） */
-    #latest-reports.cheki-mode .cheki{
-      position:relative; background:#fff!important;
-      padding:10px 10px 26px!important;  /* 下フチ厚め */
-      border-radius:10px;
-      box-shadow:0 18px 28px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.12)!important;
-      transform-origin:50% 12%;
-      outline:1px solid rgba(0,0,0,.05);
-    }
-    #latest-reports.cheki-mode .cheki[data-rot]{ rotate:var(--rot,0deg); }
-    #latest-reports.cheki-mode .cheki[data-tilt="l"]{ transform:rotateX(.5deg) rotateY(-.6deg); }
-    #latest-reports.cheki-mode .cheki[data-tilt="r"]{ transform:rotateX(.5deg) rotateY(.6deg); }
-    #latest-reports.cheki-mode .cheki:hover{
-      transform:translateY(-3px) scale(1.012);
-      box-shadow:0 26px 40px rgba(0,0,0,.22), 0 6px 14px rgba(0,0,0,.10)!important;
-      z-index:1; filter:saturate(1.04);
-    }
-    /* 写真面 */
-    #latest-reports.cheki-mode .cheki__window{
-      aspect-ratio:4/3; border-radius:8px; overflow:hidden; background:#f0f0f0;
-      position:relative; outline:1px solid rgba(0,0,0,.06);
-    }
-    #latest-reports.cheki-mode .cheki__img{
-      width:100%; height:100%; object-fit:cover; display:block;
-      opacity:1!important; visibility:visible!important; filter:none!important; mix-blend-mode:normal!important;
-    }
-    /* キャプション */
-    #latest-reports.cheki-mode .cheki__caption{ margin-top:10px; line-height:1.5; color:#202825; }
-    #latest-reports.cheki-mode .cheki__title{
-      text-decoration:none; color:inherit; font-weight:700;
-      border-bottom:2px dotted rgba(0,0,0,.25); padding-bottom:2px;
-    }
-    #latest-reports.cheki-mode .cheki__meta{ display:block; margin-top:6px; font-size:.86rem; color:#4b5e56; opacity:.95; }
-
-    @media (max-width:480px){
-      #latest-reports.cheki-mode{ gap:16px; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); }
-      #latest-reports.cheki-mode .cheki{ padding:8px 8px 22px!important; border-radius:9px; }
-      #latest-reports.cheki-mode .cheki__window{ border-radius:7px; }
-    }
-  </style>
   <!-- Google tag (gtag.js) -->
   <script>
     if (
@@ -214,7 +154,7 @@
     <!-- 活動報告：チェキ化 -->
     <section class="about-details">
       <h2><a href="report.html">活動報告</a></h2>
-      <ul id="latest-reports" aria-live="polite"></ul>
+      <ul id="latest-reports" class="cheki-mode" aria-live="polite"></ul>
     </section>
 
     <!-- 連絡先 -->
@@ -234,8 +174,6 @@
   <!-- 既存のJS（ヒーローや共通UI） -->
   <script src="js/default.js" defer></script>
   <script src="js/hero.js?v=fix6" defer></script>
-  <!-- 衝突回避のため innov.js は一旦外しています。戻す場合は次行を有効化 -->
-  <!-- <script src="js/innov.js?v=aggr2" defer></script> -->
 
   <!-- ▼ チェキ描画（軽量・ループなし・report_list/<ID>/1.jpg 自動解決） -->
   <script>
