@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
       selectedTags.forEach(t => {
         const span = document.createElement('span');
         span.classList.add('tag', 'selected');
-        span.textContent = t;
+        span.textContent = t + " ";
         searchInputEl.appendChild(span);
       });
     }

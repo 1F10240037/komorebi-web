@@ -132,7 +132,7 @@
         </div>
 
     <section class="about-details">
-      <h2>問い合わせ</h2>
+      <h2><a href="contact.html">問い合わせ</a></h2>
       <p>お問い合せ・ご相談・ご連絡はメールにて受け付けております。<br>
         ｢こもれび」は任意団体として活動しております。取材や寄付・協賛に関するご相談は、大学等の外部機関を通さず、直接こもれびのメールアドレスまでお願いいたします。</p>
       <p>団体メールアドレス：<a href="mailto:komorebi.volo@gmail.com">komorebi.volo@gmail.com</a></p>
@@ -159,7 +159,7 @@
 
     <!-- 連絡先 -->
     <section class="about-details">
-      <h2>ご協力のお願い</h2>
+      <h2><a href="support.html">ご協力のお願い</a></h2>
       <p>協賛や寄付、なんらかの形でご支援をご検討くださる場合は、以下のメールアドレスにご連絡ください。</p>
       <p>団体メールアドレス：<a href="mailto:komorebi.volo@gmail.com">komorebi.volo@gmail.com</a></p>
     </section>
@@ -255,7 +255,7 @@
       listEl.style.setProperty('display','grid','important');
 
       listEl.innerHTML = '';
-      (items||[]).slice(0, 9).forEach(a=>{
+      (items||[]).slice(0, 16).forEach(a=>{
         const li = document.createElement('li');
         li.className = 'cheki';
         const deg = randDeg(); li.style.setProperty('--rot', deg+'deg');
